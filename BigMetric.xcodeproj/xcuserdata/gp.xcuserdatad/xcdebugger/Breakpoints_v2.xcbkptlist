@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "9FC97A8F-B8D4-466C-82CB-0B30FA42DA33"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BigMetricApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - dc79dbe6075ab4fa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of BigMetric_Watch_App.BigMetric_Watch_AppApp.distanceTracker : BigMetric_Watch_App.DistanceTracker"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "312">
+               </Location>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - 682c04bbc38a1c4e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BigMetric_Watch_App.BigMetric_Watch_AppApp.distanceTracker.getter : BigMetric_Watch_App.DistanceTracker"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "280">
+               </Location>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - 122bb384a048e99"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BigMetric_Watch_App.BigMetric_Watch_AppApp.$distanceTracker.getter : SwiftUI.ObservedObject&lt;BigMetric_Watch_App.DistanceTracker&gt;.Wrapper"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - 3433efe52969063d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of BigMetric_Watch_App.BigMetric_Watch_AppApp.init(scenePhase: SwiftUI.Environment&lt;SwiftUI.ScenePhase&gt;, distanceTracker: @autoclosure () -&gt; BigMetric_Watch_App.DistanceTracker, workoutManager: @autoclosure () -&gt; BigMetric_Watch_App.WorkoutManager, weatherKitManager: @autoclosure () -&gt; BigMetric_Watch_App.WeatherKitManager, geoCodeHelper: @autoclosure () -&gt; BigMetric_Watch_App.GeoCodeHelper) -&gt; BigMetric_Watch_App.BigMetric_Watch_AppApp"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - 9fcd931fef9ed820"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of BigMetric_Watch_App.BigMetric_Watch_AppApp.distanceTracker : BigMetric_Watch_App.DistanceTracker"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/Library/Mobile%20Documents/com~apple~CloudDocs/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "312">
+               </Location>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - 2b984c422b4e7094"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BigMetric_Watch_App.BigMetric_Watch_AppApp.distanceTracker.getter : BigMetric_Watch_App.DistanceTracker"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/Library/Mobile%20Documents/com~apple~CloudDocs/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "280">
+               </Location>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - 4296f3c1a2c0e2ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BigMetric_Watch_App.BigMetric_Watch_AppApp.$distanceTracker.getter : SwiftUI.ObservedObject&lt;BigMetric_Watch_App.DistanceTracker&gt;.Wrapper"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/Library/Mobile%20Documents/com~apple~CloudDocs/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "8D90531D-CAA5-41CB-AC76-842C7DCF792F - 7787a71cc1ad6ae7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of BigMetric_Watch_App.BigMetric_Watch_AppApp.init(scenePhase: SwiftUI.Environment&lt;SwiftUI.ScenePhase&gt;, distanceTracker: @autoclosure () -&gt; BigMetric_Watch_App.DistanceTracker, workoutManager: @autoclosure () -&gt; BigMetric_Watch_App.WorkoutManager, weatherKitManager: @autoclosure () -&gt; BigMetric_Watch_App.WeatherKitManager, geoCodeHelper: @autoclosure () -&gt; BigMetric_Watch_App.GeoCodeHelper) -&gt; BigMetric_Watch_App.BigMetric_Watch_AppApp"
+                  moduleName = "BigMetric Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gp/Library/Mobile%20Documents/com~apple~CloudDocs/XCode/BigMetric/BigMetric/BigMetricApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "8">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "428480D3-52BB-402E-8454-0B24F75600CC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BigMetric Watch App/Classes/DistanceTracker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "DistanceTracker"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
