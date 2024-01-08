@@ -265,10 +265,10 @@ extension debugScreen {
 struct debugScreen_Previews: PreviewProvider {
 	static var previews: some View {
 		debugScreen()
-			.environmentObject(DistanceTracker())
-			.environmentObject(WorkoutManager())
-			.environmentObject(WeatherKitManager())
-			.environmentObject(GeoCodeHelper())
+//			.environmentObject(DistanceTracker())
+//			.environmentObject(WorkoutManager())
+//			.environmentObject(WeatherKitManager())
+//			.environmentObject(GeoCodeHelper())
 			.previewDisplayName("Debug Screen Preview")
 	}
 }

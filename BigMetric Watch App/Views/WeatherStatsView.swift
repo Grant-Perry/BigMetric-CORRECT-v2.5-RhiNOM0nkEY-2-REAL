@@ -53,12 +53,13 @@ struct WeatherStatsView: View {
             Spacer()
             Group {
                HStack {
-                  Text("\(weatherKitManager.lowTempVar)°")
+                  Text("\(weatherKitManager.highTempVar)°")
+							.foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.highTempVar)!))
                      .foregroundColor(.gpBlue)
                   Text(" / ")
                      .foregroundColor(.white)
-                  Text("\(weatherKitManager.highTempVar)°")
-                     .foregroundColor(.gpRedPink)
+                  Text("\(weatherKitManager.lowTempVar)°")
+							.foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.lowTempVar)!))
                }
                .font(.system(size: 13))
 
@@ -124,13 +125,13 @@ struct WeatherStatsView: View {
          Spacer()
 
          HStack {
-            Text("\(forecast.minTemp)°")
-               .foregroundColor(TemperatureColor.from(temperature: Double(forecast.minTemp)!))
+            Text("\(forecast.maxTemp)°")
+               .foregroundColor(TemperatureColor.from(temperature: Double(forecast.maxTemp)!))
                .font(.system(size: 17))
             Text("/")
                .foregroundColor(.white)
-            Text("\(forecast.maxTemp)°")
-               .foregroundColor(TemperatureColor.from(temperature: Double(forecast.maxTemp)!))
+            Text("\(forecast.minTemp)°")
+               .foregroundColor(TemperatureColor.from(temperature: Double(forecast.minTemp)!))
                .font(.system(size: 17))
          }
          .font(.system(size: 20))

@@ -3,16 +3,16 @@
 //  BigMetric Watch App
 //
 //  Created by: Grant Perry on 5/25/23.
-//    Modified: Modified: Sunday January 7, 2024 at 4:19:05 PM
+//    Modified: Modified: Monday January 8, 2024 at 8:08:20 PM
 
-//			Trust ONLY this project 1/7/24 - 5:00 PM
+//			Trust ONLY this project 
 //
 
 import SwiftUI
 
 let APP_NAME 		= "BigMetric"
-let APP_VERSION 	= "2.9 RhiNO-M0nkEY"
-let MOD_DATE 		= "Mod: 1/7/24 - 4:21 PM"
+let APP_VERSION 	= "3.1 RhiNO-M0nkEY"
+let MOD_DATE 		= "Mod: 1/8/24 - 8:07 PM"
 
 @main
 struct BigMetric_Watch_AppApp: App {

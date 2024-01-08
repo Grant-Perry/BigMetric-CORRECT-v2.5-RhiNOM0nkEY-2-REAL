@@ -30,30 +30,30 @@ struct showAllWeather: View {
          } currentValueLabel: {
             Text(weatherKitManager.tempVar)
          }
-         .gaugeStyle(.accessoryCircular)
-         .tint(gradient)
-         .frame(width: 50, height: 50)
-         .scaleEffect(0.95)
-         .font(.system(size:10))
-         .foregroundColor(.white)
-         .padding(.top, -4)
-         .padding(.bottom, 5)
-         VStack(alignment: .leading, spacing: 2) {
-            HStack(alignment: .center, spacing: 2) {
-               Image(systemName: weatherKitManager.symbolVar)
-                  .font(.system(size:20))
-                  .foregroundColor(.white)
-               Text("\(weatherKitManager.lowTempVar)")
-                  .font(.system(size:20))
-                  .foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.lowTempVar) ?? 0))
+			.gaugeStyle(.accessoryCircular)
+			.tint(gradient)
+			.frame(width: 50, height: 50)
+			.scaleEffect(0.95)
+			.font(.system(size:10))
+			.foregroundColor(.white)
+			.padding(.top, -4)
+			.padding(.bottom, 5)
+			VStack(alignment: .leading, spacing: 2) {
+				HStack(alignment: .center, spacing: 2) {
+					Image(systemName: weatherKitManager.symbolVar)
+						.font(.system(size:20))
+						.foregroundColor(.white)
+					Text("\(weatherKitManager.highTempVar)")
+						.font(.system(size:20))
+						.foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.highTempVar) ?? 0))
 
-               Text("/")
-                  .font(.system(size:20))
-                  .foregroundColor(.white)
-               Text("\(weatherKitManager.highTempVar)")
-                  .font(.system(size:20))
-                  .foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.highTempVar) ?? 0))
-            }
+					Text("/")
+						.font(.system(size:20))
+						.foregroundColor(.white)
+					Text("\(weatherKitManager.lowTempVar)")
+						.font(.system(size:20))
+						.foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.highTempVar) ?? 0))
+				}
             Text(address)
                .onAppear {
                   geoCodeHelper.getCityNameHelper(distanceTracker.currentCoords.latitude,
