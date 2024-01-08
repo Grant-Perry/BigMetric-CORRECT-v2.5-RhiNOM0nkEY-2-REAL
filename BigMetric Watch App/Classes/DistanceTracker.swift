@@ -211,7 +211,7 @@ var isAuthorizedForPreciseLocation							= true
 				distance 	= locationsArray.calcFromLastLocation / metersToYards
 			} else { // MILES calc
 				distance		= locationsArray.calculatedDistance / metersToMiles
-				isSpeed		= true // show speed and time option
+			//	isSpeed		= true // show speed and time option
 			}
 			// 
 			//			self.distance 			= GPSLocation.distance / metersToMiles // use the CLLocation array extension .distance to calculate distance
