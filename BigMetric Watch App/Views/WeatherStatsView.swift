@@ -16,6 +16,7 @@ struct WeatherStatsView: View {
    @EnvironmentObject var distanceTracker: DistanceTracker
    @Binding var showWeatherStatsView: Bool
    @State private var address = ""
+	var hotColdFirst = true
    var nextHrTemp: Double { Double(weatherKitManager.tempHour) ?? 0 }
    var thisHrtemp: Double { Double(weatherKitManager.tempVar) ?? 0 }
    var nextHrTempColor: Color { PrecipChanceColor.from(chance: Int(nextHrTemp)) }
@@ -54,12 +55,12 @@ struct WeatherStatsView: View {
             Group {
                HStack {
                   Text("\(weatherKitManager.highTempVar)°")
-							.foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.highTempVar)!))
+							.foregroundColor(TemperatureColor.from(temperature: Double(hotColdFirst ? weatherKitManager.highTempVar : weatherKitManager.lowTempVar)!))
                      .foregroundColor(.gpBlue)
                   Text(" / ")
                      .foregroundColor(.white)
                   Text("\(weatherKitManager.lowTempVar)°")
-							.foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.lowTempVar)!))
+							.foregroundColor(TemperatureColor.from(temperature: Double(hotColdFirst ? weatherKitManager.lowTempVar : weatherKitManager.highTempVar)!))
                }
                .font(.system(size: 13))
 
@@ -124,16 +125,24 @@ struct WeatherStatsView: View {
          }
          Spacer()
 
-         HStack {
-            Text("\(forecast.maxTemp)°")
-               .foregroundColor(TemperatureColor.from(temperature: Double(forecast.maxTemp)!))
-               .font(.system(size: 17))
-            Text("/")
-               .foregroundColor(.white)
-            Text("\(forecast.minTemp)°")
-               .foregroundColor(TemperatureColor.from(temperature: Double(forecast.minTemp)!))
-               .font(.system(size: 17))
-         }
+			let mainTemp = hotColdFirst ? forecast.maxTemp : forecast.minTemp
+			let secondTemp = hotColdFirst ? forecast.minTemp : forecast.maxTemp
+			let mainTemperatureColor = TemperatureColor.from(temperature: Double(mainTemp)!)
+			let secondaryTemperatureColor = TemperatureColor.from(temperature: Double(secondTemp)!)
+
+			HStack {
+				Text("\(mainTemp)°")
+					.foregroundColor(mainTemperatureColor)
+					.font(.system(size: 17))
+
+				Text("/")
+					.foregroundColor(.white)
+
+				Text("\(secondTemp)°")
+					.foregroundColor(secondaryTemperatureColor)
+					.font(.system(size: 17))
+			}
+
          .font(.system(size: 20))
          .bold()
       }
