@@ -9,10 +9,11 @@ import SwiftUI
 import Combine
 
 struct ShowWeather: View {
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject var workoutManager: WorkoutManager
-   @EnvironmentObject var weatherKitManager: WeatherKitManager
-   @EnvironmentObject var geoCodeHelper: GeoCodeHelper
+//   @EnvironmentObject var distanceTracker: DistanceTracker
+//   @EnvironmentObject var workoutManager: WorkoutManager
+	var distanceTracker: DistanceTracker
+   var weatherKitManager: WeatherKitManager
+	var geoCodeHelper: GeoCodeHelper
    @State private var address: String = "Loading address..."
    private var gradient: Gradient {
       Gradient(colors: [.blue, .red])
@@ -86,18 +87,10 @@ struct ShowWeather: View {
             Spacer()
          }
       }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
-      .environmentObject(weatherKitManager)
-      .environmentObject(geoCodeHelper)
       .font(.footnote)
       .onAppear {
          weatherKitManager.getWeather(for: distanceTracker.currentCoords)
       }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
-      .environmentObject(weatherKitManager)
-      .environmentObject(geoCodeHelper)
    }
 }
 

@@ -10,81 +10,70 @@ import SwiftUI
 import CoreMotion
 import CoreLocation
 import HealthKit
-import Combine
 import UIKit
 
 struct endWorkout: View {
-   @Environment(\.colorScheme) var colorScheme
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject var workoutManager: WorkoutManager
-   @Binding var selectedTab: Int
-//   @State var mySelectedTab = 6
+	@Environment(\.colorScheme) var colorScheme
+	@Bindable var distanceTracker: DistanceTracker
+	@Bindable var workoutManager: WorkoutManager
+	@Binding var selectedTab: Int
 
-   var screenBounds = WKInterfaceDevice.current().screenBounds
+
+	//   @State var mySelectedTab = 6
+
+	var screenBounds = WKInterfaceDevice.current().screenBounds
 	@State var yardsOrMiles				= false
 	@State var isStopping				= true // state of running / ending workout
-   @State private var isRecording	= true
-   @State var timeOut					= Color(#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1))
-   @State var headerBGColor			= Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))
-   @State var headerBGColor2			=  Color(#colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1))
-   @State var isStoppingColor			= Color(#colorLiteral(red: 1, green: 0.5409764051, blue: 0.8473142982, alpha: 1))
+	@State private var isRecording	= true
+	@State var timeOut					= Color(#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1))
+	@State var headerBGColor			= Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))
+	@State var headerBGColor2			=  Color(#colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1))
+	@State var isStoppingColor			= Color(#colorLiteral(red: 1, green: 0.5409764051, blue: 0.8473142982, alpha: 1))
 
-   var body: some View {
-      VStack {
-         ButtonView(stateBtnColor: Color(.white),
-                    startColor: headerBGColor,
-                    endColor: isStoppingColor,
-                    isUp: !self.isStopping)
-            .overlay(
-               VStack {
-                  Button(action: {
-                     isStopping = false
-//                     PlayHaptic.tap(PlayHaptic.start)
-                     workoutManager.endWorkoutbuilder() // stop the HKWorkoutBuilder
-                     _ = distanceTracker.stopUpdates(false)  // stop the locationManager updates
-                     distanceTracker.cleanVars = true // didSet will handle reset
-                     isStopping = true
-//                     PlayHaptic.tap(PlayHaptic.stop)
-                     self.selectedTab = 5 //  show summary
-                  }) {
-                     Text(isStopping ? "End Workout" : "Writing Workout")
-                        .padding(.top, -20)
-                  }
-               }
-            )
-//         TimeView()
-      }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
-   }
-}
-
-extension View {
-   func modTimeHead(_ timeOut: Color) -> some View {
-      self
-         .frame(maxWidth: .infinity, alignment: .center)
-         .padding(.top, 8)
-         .font(.caption2)
-         .foregroundColor(timeOut)
-         .background(Color.white.opacity(0.15))
-         .cornerRadius(10)
-   }
-
-   func modTimeVal(_ headText: Color) -> some View {
-      self
-         .frame(maxWidth: .infinity, alignment: .center)
-         .baselineOffset(16)
-         .foregroundColor(headText)
-         .font(.caption2)
-   }
-}
-
-struct endWorkout_Previews: PreviewProvider {
-	static var previews: some View {
-		endWorkout(selectedTab: .constant(0))
-			.environmentObject(DistanceTracker())
-			.environmentObject(WorkoutManager())
-			.preferredColorScheme(.dark)
+	var body: some View {
+		VStack {
+			ButtonView(stateBtnColor: Color(.white),
+						  startColor: headerBGColor,
+						  endColor: isStoppingColor,
+						  isUp: !self.isStopping)
+			.overlay(
+				VStack {
+					Button(action: {
+						isStopping = false
+						//                     PlayHaptic.tap(PlayHaptic.start)
+						workoutManager.endWorkoutbuilder() // stop the HKWorkoutBuilder
+						_ = distanceTracker.stopUpdates(false)  // stop the locationManager updates
+						distanceTracker.cleanVars = true // didSet will handle reset
+						isStopping = true
+						//                     PlayHaptic.tap(PlayHaptic.stop)
+						self.selectedTab = 4 //  show summary
+					}) {
+						Text(isStopping ? "End Workout" : "Writing Workout")
+							.padding(.top, -20)
+					}
+				}
+			)
+			//         TimeView()
+		}
 	}
 }
 
+extension View {
+	func modTimeHead(_ timeOut: Color) -> some View {
+		self
+			.frame(maxWidth: .infinity, alignment: .center)
+			.padding(.top, 8)
+			.font(.caption2)
+			.foregroundColor(timeOut)
+			.background(Color.white.opacity(0.15))
+			.cornerRadius(10)
+	}
+
+	func modTimeVal(_ headText: Color) -> some View {
+		self
+			.frame(maxWidth: .infinity, alignment: .center)
+			.baselineOffset(16)
+			.foregroundColor(headText)
+			.font(.caption2)
+	}
+}

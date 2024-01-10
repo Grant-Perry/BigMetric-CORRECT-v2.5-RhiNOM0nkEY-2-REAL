@@ -10,10 +10,8 @@ import SwiftUI
 // utilize: to show a progress view while loading async location data
 // message: is the message to display
 struct LocationProgressView: View {
-   @EnvironmentObject var  distanceTracker: DistanceTracker
-
+//	var  distanceTracker: DistanceTracker
    var message: String
-
    var body: some View {
 
       ZStack(alignment: .center) {
@@ -35,7 +33,6 @@ struct LocationProgressView: View {
                .scaleEffect(2)
                .padding(.top, -59)
          }
-         .environmentObject(distanceTracker)
          .padding(.top, 5) // Add padding to push the content down
          .horizontallyCentered()
       }

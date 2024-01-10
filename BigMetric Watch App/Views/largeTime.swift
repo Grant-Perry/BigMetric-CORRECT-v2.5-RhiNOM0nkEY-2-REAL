@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct largeTime: View {
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject var workoutManager: WorkoutManager
+   @Bindable var distanceTracker: DistanceTracker
+   @Bindable var workoutManager: WorkoutManager
+
    @State var gradStart = Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
    @State var gradStop = Color(#colorLiteral(red: 0.984064281, green: 0.8393800855, blue: 0.01998443156, alpha: 1))
    @State var secColor = Color(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1))
@@ -66,40 +67,37 @@ struct largeTime: View {
          )
 
          //         .scaleEffect(0.85)
-         .onReceive(distanceTracker.$formattedTimeString) { formattedString in
-            let components = formattedString.components(separatedBy: ":")
-            if components.count > 2 {
-               hours = Int(components[0]) ?? 0
-            } else {
-               hours = 0
-            }
-         }
+//         .onReceive($distanceTracker.formattedTimeString) { formattedString in
+//
+//            let components = formattedString.components(separatedBy: ":")
+//            if components.count > 2 {
+//               hours = Int(components[0]) ?? 0
+//            } else {
+//               hours = 0
+//            }
+//         }
          VStack {
             HStack {
                HStack {
-                  Text("Steps: \(Int(newSteps))")
+                  Text("Steps: \(Int(workoutManager.stepCounter))")
                }
                HStack {
-                  Text("Dist: \(String(format: "%.2f", newDist))")
+                  Text("Dist: \(String(format: "%.2f", distanceTracker.distance))")
                }
             }
          }
-         .onReceive(workoutManager.$stepCounter) { newStepVal in
-            newSteps = newStepVal
-         }
-         .onReceive(distanceTracker.$distance) { newDistVal in
-				newDist = Double(newDistVal )
-         }
+
+			//			.onReceive($workoutManager.stepCounter) { newStepVal in
+//            newSteps = Double(newStepVal)
+//         }
+//         .onReceive($distanceTracker.distance) { newDistVal in
+//				newDist = Double(newDistVal )
+//         }
          .font(.footnote)
       }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
    }
 }
 
-extension largeTime {
-
-}
 
 //struct largeTime_Previews: PreviewProvider {
 //   static var previews: some View {

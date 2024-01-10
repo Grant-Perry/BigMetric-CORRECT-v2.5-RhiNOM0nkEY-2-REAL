@@ -13,9 +13,9 @@ struct smallDistanceView: View {
 #else
    @State var screenBounds = UIScreen.main.bounds
 #endif
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject  var workoutManager: WorkoutManager
-   var isUp: Bool {
+	@Bindable var distanceTracker: DistanceTracker
+
+	var isUp: Bool {
       return distanceTracker.isUpdating
    }
    var isRecording: Bool {
@@ -43,12 +43,8 @@ struct smallDistanceView: View {
                  endColor: !isRecording ? (distanceTracker.yardsOrMiles ? bgMilesStopBottom : bgYardsStopBottom) : (distanceTracker.yardsOrMiles ? bgMilesStartBottom : bgYardsStartBottom),
                  isUp: self.isUp,
                  screenBounds: self.screenBounds)
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
       .overlay(
-         InsideButtonTextView())
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
+         InsideButtonTextView(distanceTracker: distanceTracker))
    }
    
 }

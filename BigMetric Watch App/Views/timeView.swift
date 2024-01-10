@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct TimeView: View {
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject var workoutManager: WorkoutManager
+	var distanceTracker: DistanceTracker
 
    @State var headerBGColor = Color(#colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1))
    @State var timeBGColor = Color(#colorLiteral(red: 0.3624623497, green: 0.8862745166, blue: 0.5439072758, alpha: 1))
@@ -68,8 +67,6 @@ struct TimeView: View {
          .background(Color.black)
          .frame(maxHeight: .infinity, alignment: .center)
       }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
       .padding(.top, -10)
    }
 
@@ -95,10 +92,3 @@ struct TimeView: View {
    }
 }
 
-struct timeView_Previews: PreviewProvider {
-    static var previews: some View {
-        TimeView()
-          .environmentObject(DistanceTracker())
-          .environmentObject(WorkoutManager())
-    }
-}

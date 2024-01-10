@@ -12,12 +12,12 @@ import WatchConnectivity
 
 struct howFarGPS: View {
 #if os(watchOS)
-   @State var screenBounds = WKInterfaceDevice.current().screenBounds
+	@State var screenBounds = WKInterfaceDevice.current().screenBounds
 #else
-   @State var screenBounds = UIScreen.main.bounds
+	@State var screenBounds = UIScreen.main.bounds
 #endif
-	@EnvironmentObject var distanceTracker: DistanceTracker
-	@EnvironmentObject var workoutManager: WorkoutManager
+	var distanceTracker: DistanceTracker
+	var workoutManager: WorkoutManager
 	@Environment(\.colorScheme) var colorScheme
 	@State var debug								= false
 	@State var resetDist							= false
@@ -46,76 +46,76 @@ struct howFarGPS: View {
 	@State var isUpdatingOffStop				= Color(#colorLiteral(red: 0.9260191787, green: 0.1247814497, blue: 0.4070666561, alpha: 1))
 	@State var isRecordingColor				= Color(#colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1))
 	@State var distanceHowFarGPS: Double 	= 0
-			 var timePadding						= 70.0
-			 var width								= 65.0
-			 var height								= 25.0
-			 var isUp: Bool {
-				 return distanceTracker.isUpdating
-			 }
-			 var isRecording: Bool {
-				 return distanceTracker.weIsRecording
-			 }
+	var timePadding						= 70.0
+	var width								= 65.0
+	var height								= 25.0
+	var isUp: Bool {
+		return distanceTracker.isUpdating
+	}
+	var isRecording: Bool {
+		return distanceTracker.weIsRecording
+	}
 
 
-   var body: some View {
-      VStack(alignment: .center, spacing:0) {
-         VStack(spacing: 0) {
-            VStack { // top spacer
-            }
-            .frame(height: 70)
-            VStack(alignment: .center, spacing: 0) {
-               
+	var body: some View {
+		VStack(alignment: .center, spacing:0) {
+			VStack(spacing: 0) {
+				VStack { // top spacer
+				}
+				.frame(height: 70)
+				VStack(alignment: .center, spacing: 0) {
+
 					ButtonView(stateBtnColor: isRecording ? (isUp ? isRecordingColor : .white) : .black,
 								  startColor: !isRecording ? (distanceTracker.yardsOrMiles ? bgMilesStopTop : bgYardsStopTop) : (distanceTracker.yardsOrMiles ? bgMilesStartTop : bgYardsStartTop),
 								  endColor: !isRecording ? (distanceTracker.yardsOrMiles ? bgMilesStopBottom : bgYardsStopBottom) : (distanceTracker.yardsOrMiles ? bgMilesStartBottom : bgYardsStartBottom),
 								  isUp: self.isUp,
 								  screenBounds: self.screenBounds)
 					// MARK: It all starts here - the button
-               .overlay(
-                  VStack {
-                     DoubleClickButton(action: {
-                        // check to be certain we have garnered an accurate initial location
-//                        if !distanceTracker.isInitialLocationObtained {
-                           if !isRecording {
-                              if distanceTracker.isBeep {
-                                 PlayHaptic.tap(PlayHaptic.start)
-                              }
-                              
-                              let wmState = workoutManager.workoutSessionState
-                              if wmState == .notStarted || wmState == .ended  {
-                                 // start/restart the routeManger and initialize startStepCnt & lastLocation
-
-                                 // bleach the properties
-                                 workoutManager.resetWorkout()
-                                 distanceTracker.cleanVars 	= true
-                                 distanceTracker.queryStepCount { steps in
-                                    if let steps = steps {
-                                       distanceTracker.startStepCnt = steps
-                                       print("Number of steps inside wmState: \(steps)")
-                                    } else {
-                                       print("Error retrieving step count.") } }
-                                 distanceTracker.lastLocation 		= nil  // reset to be certain there is nothing cached
-                                 distanceTracker.holdCLLocations 	= []
-                                 workoutManager.startWorkout(workoutType: .walking) // start the HKWorkoutLive
-                              } else {
-                                 workoutManager.togglePause()
-                              }
-                              distanceTracker.toggleWeIsRecording(true)
-                              distanceTracker.showStartText = false // used for the Start text on the button
-                                                                    // Request the current location
-                              distanceTracker.startUpdates()
-                           } else {
-										if distanceTracker.isBeep {
-											PlayHaptic.tap(PlayHaptic.stop)
-										}
-										workoutManager.togglePause()
-										distanceTracker.toggleWeIsRecording(false)
-										_ = distanceTracker.stopUpdates(false) // stop but do not refresh properties
+					.overlay(
+						VStack {
+							DoubleClickButton(action: {
+								// check to be certain we have garnered an accurate initial location
+								//                        if !distanceTracker.isInitialLocationObtained {
+								if !isRecording {
+									if distanceTracker.isBeep {
+										PlayHaptic.tap(PlayHaptic.start)
 									}
+
+									let wmState = workoutManager.workoutSessionState
+									if wmState == .notStarted || wmState == .ended  {
+										// start/restart the routeManger and initialize startStepCnt & lastLocation
+
+										// bleach the properties
+										workoutManager.resetWorkout()
+										distanceTracker.cleanVars 	= true
+										distanceTracker.queryStepCount { steps in
+											if let steps = steps {
+												distanceTracker.startStepCnt = steps
+												print("Number of steps inside wmState: \(steps)")
+											} else {
+												print("Error retrieving step count.") } }
+										distanceTracker.lastLocation 		= nil  // reset to be certain there is nothing cached
+										distanceTracker.holdCLLocations 	= []
+										workoutManager.startWorkout(workoutType: .walking) // start the HKWorkoutLive
+									} else {
+										workoutManager.togglePause()
+									}
+									distanceTracker.toggleWeIsRecording(true)
+									distanceTracker.showStartText = false // used for the Start text on the button
+																					  // Request the current location
+									distanceTracker.startUpdates()
+								} else {
+									if distanceTracker.isBeep {
+										PlayHaptic.tap(PlayHaptic.stop)
+									}
+									workoutManager.togglePause()
+									distanceTracker.toggleWeIsRecording(false)
+									_ = distanceTracker.stopUpdates(false) // stop but do not refresh properties
+								}
 							})
 							{
 							// MARK: - Distance text
-							InsideButtonTextView()
+							InsideButtonTextView(distanceTracker: distanceTracker)
 							}
 						}
 							.sheet(isPresented: Binding(get: { distanceTracker.ShowEstablishGPSScreen },
@@ -129,7 +129,8 @@ struct howFarGPS: View {
 					)
 					.padding(.top, -35)
 					// MARK: - Time Display
-					ShowTimeOrSpeed()
+					ShowTimeOrSpeed(distanceTracker: distanceTracker, 
+										 workoutManager: workoutManager)
 				}
 
 				VStack {
@@ -165,7 +166,7 @@ struct howFarGPS: View {
 									.cornerRadius(10)
 							}
 							.frame(width: width, height: height, alignment: .center)
-							.background(LinearGradient(gradient: Gradient(colors: [bgYardsStopTop, bgYardsStopBottom]), 
+							.background(LinearGradient(gradient: Gradient(colors: [bgYardsStopTop, bgYardsStopBottom]),
 																startPoint: .bottomLeading,
 																endPoint: .topLeading))
 							.cornerRadius(15)
@@ -174,7 +175,7 @@ struct howFarGPS: View {
 									.stroke(distanceTracker.yardsOrMiles ? .black : .white, lineWidth: 3)
 							)
 						}
-						
+
 						HStack {
 							DoubleClickButton(action: {
 								distanceTracker.isSpeed = false
@@ -183,7 +184,7 @@ struct howFarGPS: View {
 								//              self.isRecording = false
 								distanceTracker.toggleYMBool(true)
 							}) {
-								
+
 								Text("Miles")
 									.font(.footnote)
 									.foregroundColor(.white)
@@ -203,9 +204,9 @@ struct howFarGPS: View {
 					}
 					.frame(width: (screenBounds.width / 0.5), height: 100)
 				}
-            .padding(.top, -30)
-         }
-// MARK: - isUpdating beacon
+				.padding(.top, -30)
+			}
+			// MARK: - isUpdating beacon
 			ZStack {
 				HStack {
 					HStack {
@@ -213,7 +214,7 @@ struct howFarGPS: View {
 							.fill(LinearGradient(gradient: Gradient(colors: [isUp ? isUpdatingOn :
 																								(isHealthUpdate ? isHealthUpdateOn : isUpdatingOff),
 																							 isUp ? isUpdatingOnStop : isUpdatingOffStop]),
-														startPoint: .topLeading, 
+														startPoint: .topLeading,
 														endPoint: .bottomTrailing))
 							.frame(width: 10, height: 10)
 							.offset(x: 98, y: (-screenBounds.height / 2))
@@ -221,7 +222,7 @@ struct howFarGPS: View {
 
 					Spacer()
 						.frame(width: 15)
- // MARK: - GPSIcon beacon
+					// MARK: - GPSIcon beacon
 					HStack {
 						GPSIconView(accuracy: Int(distanceTracker.GPSAccuracy), size: 17.0)
 							.frame(width: 25, height: 40)
@@ -230,27 +231,14 @@ struct howFarGPS: View {
 				}
 				.frame(height:39)
 				.background(.black)
-				}
+			}
 
-      }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
-      .preferredColorScheme(.dark)
-   }
+		}
+		.preferredColorScheme(.dark)
+	}
 
-   func updateDebugStr(_ var1: Bool, _ var2: Bool) {
-      debugStr = "YM: \(String(var1)) - isRec: \(String(var2))"
-   }
-}
-
-struct howFarGPS_Previews: PreviewProvider {
-	static var previews: some View {
-		// You can customize the environment objects as needed for testing
-		let distanceTracker = DistanceTracker()
-		let workoutManager = WorkoutManager()
-
-		return howFarGPS()
-			.environmentObject(distanceTracker)
-			.environmentObject(workoutManager)
+	func updateDebugStr(_ var1: Bool, _ var2: Bool) {
+		debugStr = "YM: \(String(var1)) - isRec: \(String(var2))"
 	}
 }
+

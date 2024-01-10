@@ -9,11 +9,12 @@ import SwiftUI
 import CoreMotion
 import Combine
 
-class AltitudeManager: ObservableObject {
+@Observable
+class AltitudeManager: NSObject {
    private let altimeter = CMAltimeter()
    private var cancellable: AnyCancellable?
 
-   @Published var altitudeString: String = ""
+   var altitudeString: String = ""
 
    func startUpdates() {
       guard CMAltimeter.isRelativeAltitudeAvailable() else {

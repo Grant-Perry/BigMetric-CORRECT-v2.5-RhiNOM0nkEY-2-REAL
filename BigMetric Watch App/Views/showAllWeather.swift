@@ -9,9 +9,10 @@ import SwiftUI
 
 
 struct showAllWeather: View {
-   @EnvironmentObject var weatherKitManager: WeatherKitManager
-   @EnvironmentObject var geoCodeHelper: GeoCodeHelper
-   @EnvironmentObject var distanceTracker: DistanceTracker
+var weatherKitManager: WeatherKitManager
+var geoCodeHelper: GeoCodeHelper
+var distanceTracker: DistanceTracker
+	
 
    @State private var address = ""
    private var gradient: Gradient {
@@ -25,11 +26,15 @@ struct showAllWeather: View {
 
    func todaysWeather() -> HStack<TupleView<(some View, some View, Spacer)>> {
       return HStack(alignment: .center) {
-         Gauge(value: Double(weatherKitManager.tempVar) ?? 0, in: (Double(weatherKitManager.lowTempVar) ?? 0)...(Double(weatherKitManager.highTempVar) ?? 0)) {
-            Text("Temp")
-         } currentValueLabel: {
-            Text(weatherKitManager.tempVar)
-         }
+			Gauge(
+				value: Double(weatherKitManager.tempVar) ?? 0,
+				in: (Double(weatherKitManager.lowTempVar) ?? 0)...(Double(weatherKitManager.highTempVar) ?? 0)
+			) {
+				Text("Temp")
+			} currentValueLabel: {
+				Text(weatherKitManager.tempVar) // Wrap it in a Text view
+			}
+
          .gaugeStyle(.accessoryCircular)
          .tint(gradient)
          .frame(width: 50, height: 50)
@@ -39,21 +44,30 @@ struct showAllWeather: View {
          .padding(.top, -4)
          .padding(.bottom, 5)
          VStack(alignment: .leading, spacing: 2) {
-            HStack(alignment: .center, spacing: 2) {
-               Image(systemName: weatherKitManager.symbolVar)
-                  .font(.system(size:20))
-                  .foregroundColor(.white)
-               Text("\(weatherKitManager.lowTempVar)")
-                  .font(.system(size:20))
-                  .foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.lowTempVar) ?? 0))
+				HStack(alignment: .center, spacing: 2) {
+					let primaryTemp = distanceTracker.hotColdFirst ? weatherKitManager.highTempVar : weatherKitManager.lowTempVar
+					let secondaryTemp = distanceTracker.hotColdFirst ? weatherKitManager.lowTempVar : weatherKitManager.highTempVar
+					let fontSize:CGFloat = 16.0
 
-               Text("/")
-                  .font(.system(size:20))
-                  .foregroundColor(.white)
-               Text("\(weatherKitManager.highTempVar)")
-                  .font(.system(size:20))
-                  .foregroundColor(TemperatureColor.from(temperature: Double(weatherKitManager.highTempVar) ?? 0))
-            }
+					Image(systemName: weatherKitManager.symbolVar)
+						.font(.system(size: fontSize))
+						.foregroundColor(.white)
+
+
+
+					Text("\(primaryTemp)°")
+						.font(.system(size: fontSize))
+						.foregroundColor(TemperatureColor.from(temperature: Double(primaryTemp) ?? 0))
+
+					Text("/")
+						.font(.system(size: fontSize))
+						.foregroundColor(.white)
+
+					Text("\(secondaryTemp)°")
+						.font(.system(size: fontSize))
+						.foregroundColor(TemperatureColor.from(temperature: Double(secondaryTemp) ?? 0))
+				}
+
             Text(address)
                .onAppear {
                   geoCodeHelper.getCityNameHelper(distanceTracker.currentCoords.latitude,
@@ -69,15 +83,15 @@ struct showAllWeather: View {
       }
    }
 }
-
-struct showAllWeather_Previews: PreviewProvider {
-   static var previews: some View {
-      let weatherKitManager = WeatherKitManager()
-      let geoCodeHelper = GeoCodeHelper()
-      let distanceTracker = DistanceTracker()
-      return showAllWeather()
-         .environmentObject(weatherKitManager)
-         .environmentObject(geoCodeHelper)
-         .environmentObject(distanceTracker)
-   }
-}
+//
+//struct showAllWeather_Previews: PreviewProvider {
+//   static var previews: some View {
+//      let weatherKitManager = WeatherKitManager()
+//      let geoCodeHelper = GeoCodeHelper()
+//      let distanceTracker = DistanceTracker()
+//      return showAllWeather()
+//         .environmentObject(weatherKitManager)
+//         .environmentObject(geoCodeHelper)
+//         .environmentObject(distanceTracker)
+//   }
+//}

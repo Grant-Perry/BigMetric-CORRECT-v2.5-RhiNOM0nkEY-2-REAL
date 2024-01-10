@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct InsideButtonTextView: View {
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject var workoutManager: WorkoutManager
+var distanceTracker: DistanceTracker
+//var workoutManager: WorkoutManager
 
    var body: some View {
       VStack(spacing: 0) {
@@ -48,8 +48,6 @@ struct InsideButtonTextView: View {
 //               }
             }
          }
-         .environmentObject(distanceTracker)
-         .environmentObject(workoutManager)
       }
    }
 }

@@ -10,8 +10,9 @@
 import SwiftUI
 
 struct ShowTimeOrSpeed: View {
-	@EnvironmentObject var distanceTracker: DistanceTracker
-	@EnvironmentObject var workoutManager: WorkoutManager
+
+	@Bindable var distanceTracker: DistanceTracker
+	var workoutManager: WorkoutManager
 
 	var body: some View {
 		VStack {
@@ -50,8 +51,6 @@ struct ShowTimeOrSpeed: View {
 
 			Spacer()
 		}
-		.environmentObject(distanceTracker)
-		.environmentObject(workoutManager)
 		.padding(.top, -15)
 	}
 

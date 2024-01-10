@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct showHeartBeat: View {
-   @EnvironmentObject var distanceTracker: DistanceTracker
+//   @EnvironmentObject*/ var distanceTracker: DistanceTracker
+	var distanceTracker: DistanceTracker
    var body: some View {
       VStack{
          HStack(alignment: .center) {
@@ -33,7 +34,6 @@ struct showHeartBeat: View {
             Spacer()
          }
       }
-      .environmentObject(distanceTracker)
       .padding()
       //       .onAppear(perform: start)
    }

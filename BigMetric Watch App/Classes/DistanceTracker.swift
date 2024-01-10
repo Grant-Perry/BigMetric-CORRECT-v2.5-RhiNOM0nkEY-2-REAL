@@ -3,63 +3,61 @@
 //
 //  Created by Grant Perry on 1/24/23.
 
-//		THIS IS THE BEST VERSION Jan 6, 2024
+//   Modified: Tuesday January 9, 2024 at 12:07:56 AM
 
-//   Modified: Modified: Saturday January 6, 2024 at 6:20:12 PM
 import SwiftUI
+import Observation
 import CoreLocation
 import CoreMotion // for the pedometer
 import HealthKit
-//import Combine
 
-class DistanceTracker: 	NSObject,
-								ObservableObject,
-								CLLocationManagerDelegate {
-	@EnvironmentObject var workoutManager: 				WorkoutManager
-	@Published var pedometer: CMPedometer					= CMPedometer()
-	@Published var timer: 										Timer?
-	@Published var longitude: 									CLLocationDegrees?
-	@Published var latitude: 									CLLocationDegrees?
-	@Published var lastLocation: 								CLLocation?
-	@Published var firstLocation: 							CLLocation?
-	var LMDelegate 												= CLLocationManager()
-	@Published var currentCoords              			= CLLocationCoordinate2D()
-	@Published var routeBuilder 								= HKWorkoutRouteBuilder(healthStore: HKHealthStore(), device: nil)
-	@Published var HKStore 										= HKHealthStore()
-	@Published var formatter 									= DateComponentsFormatter()
-	@Published var locationName               			= ""
-	@Published var formattedTimeString						= "00:00:00"
-	@Published var debugStr: String							= "debug"
-	@Published var superBug	: String							= "superBug"
-	@Published var superAuthBug	: String					= "Not determined"
-	@Published var builderDebugStr: String					= "[nil]"
-	@Published var plusMinus: String							= "+="
-	@Published var altitudes: [AltitudeDataPoint]		= []
-				  var holdCLLocations: [CLLocation] 		= []
-				  var locationsArray: 	[CLLocation] 		= []  // array to hold each didUpdateLocation GPS location to sum .calculatedDistance
-	@AppStorage("isBeep") var isBeep							= true
-	@Published var isSpeed:Bool 								= true 			// MPH-BPM state
-	@Published var showStartText								= true
-	@Published var yardsOrMiles								= true
-	@Published var YMCalc										= true
-	@Published var initRun										= true
-	@Published var startRouteBuilder						= true
-var isAuthorizedForPreciseLocation							= true
-	@Published var isInitialLocationObtained				= false
-	var healthRecordExists 									= false
-	var healthRecordsDelete 									= false
-	@Published var isUpdating									= false
-	@Published var isHealthUpdate								= false
-	@Published var isNotAuthorized							= false
-	@Published var isWorkoutLive								= false
-	@Published var weIsRecording								= false
-	@Published var ShowEstablishGPSScreen					= false
-	@Published var isPrecise 									= true {
+@Observable
+class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
+	var pedometer: CMPedometer = CMPedometer()
+	var hotColdFirst = true
+	var timer: Timer?
+	var longitude: CLLocationDegrees?
+	var latitude: CLLocationDegrees?
+	var lastLocation: CLLocation?
+	var firstLocation: CLLocation?
+	var LMDelegate = CLLocationManager()
+	var currentCoords = CLLocationCoordinate2D()
+	var routeBuilder = HKWorkoutRouteBuilder(healthStore: HKHealthStore(), device: nil)
+	var HKStore = HKHealthStore()
+	var formatter = DateComponentsFormatter()
+	var locationName = ""
+	var formattedTimeString = "00:00:00"
+	var debugStr: String = "debug"
+	var superBug	: String = "superBug"
+	var superAuthBug	: String = "Not determined"
+	var builderDebugStr: String = "[nil]"
+	var plusMinus: String = "+="
+	var altitudes: [AltitudeDataPoint] = []
+	var holdCLLocations: [CLLocation] = []
+	var locationsArray: 	[CLLocation] = []  // array to hold each didUpdateLocation GPS location to sum .calculatedDistance
+	var isBeep = true  //	@AppStorage("isBeep") var isBeep = true
+	var isSpeed:Bool = true 			// MPH-BPM state
+	var showStartText = true
+	var yardsOrMiles = true
+	var YMCalc = true
+	var initRun = true
+	var startRouteBuilder = true
+	var isAuthorizedForPreciseLocation = true
+	var isInitialLocationObtained = false
+	var healthRecordExists = false
+	var healthRecordsDelete = false
+	var isUpdating = false
+	var isHealthUpdate = false
+	var isNotAuthorized = false
+	var isWorkoutLive = false
+	var weIsRecording = false
+	var ShowEstablishGPSScreen = false
+	var isPrecise = true {
 		didSet {
 			setPrecision() // change the precision for GPS when user toggles isPrecise on debugScreen
 		}
 	}
-	@Published var cleanVars: Bool 							= false {
+	var cleanVars: Bool = false {
 		didSet {
 			if cleanVars {
 				print("I'm in didSet for CleanVars")
@@ -68,46 +66,46 @@ var isAuthorizedForPreciseLocation							= true
 			}
 		}
 	}
-	@Published var healthRecordsCount						= 0
-	@Published var workoutStepCount: 			Int		= 0 // overall step count from the pedometer
-	@Published var lastHapticMile:				Int		= 0
-	@Published var startStepCnt: 					Int		= 0
-	@Published var holdInitialSteps:				Int		= 0
-	@Published var prevDist: 					Double		= 0
-	@Published var speedDist: 					Double		= 0
-	@Published var altitude: 					Double		= 0
-//	@Published var heartRate: 					Double		= 0
-	@Published var heartRateReadings: 		[Double] 	= [] // array to hold heart readings to display average
-	@Published var heartRate: Double = 0 {
+	var healthRecordsCount = 0
+	var workoutStepCount: Int = 0 // overall step count from the pedometer
+	var lastHapticMile: Int = 0
+	var startStepCnt: Int = 0
+	var holdInitialSteps: Int = 0
+	var prevDist: Double = 0
+	var speedDist: Double = 0
+	var altitude: Double = 0
+	//	@Published var heartRate: 					Double		= 0
+	var heartRateReadings: [Double] = [] // array to hold heart readings to display average
+	var heartRate: Double = 0 {
 		didSet {
 			// Add the new heart rate reading to the array
 			heartRateReadings.append(heartRate)
 		}
 	}
-	@Published var finalDist:					Double		= 0
-	@Published var lastDist:					Double		= 0
-	@Published var elapsedTime: 				Double		= 0
-	@Published var segmentDistance:			Double		= 0
-	@Published var distance: 					Double		= 0 {
+	var finalDist: Double = 0
+	var lastDist: Double = 0
+	var elapsedTime: Double = 0
+	var segmentDistance: Double = 0
+	var distance: Double = 0 {
 		didSet {
 			// TODO: - DEBUG - next line
 			//print("the calculated distance is: \(String(describing: distance))")
 		}
 	}
-	@Published var GPSAccuracy									= 99.0 // for GPSIcon indicator
-	@State var metersToMiles						        	= 1609.344
-	@State var metersToYards									= 1.0936133 // 0.91439950622 // 3.28084
-	@State var metersToFeet										= 0.3048
+	var GPSAccuracy = 99.0 // for GPSIcon indicator
+	var metersToMiles = 1609.344
+	var metersToYards = 1.0936133 // 0.91439950622 // 3.28084
+	var metersToFeet = 0.3048
 
 	override init() {
 		super.init()
-//		print("Inside override init\n")
+		//		print("Inside override init\n")
 		getCLAuth(LMDelegate) // get location whenInUse auth
 		setupLocationManager()
 	}
-	
+
 	private func setupLocationManager() {
-//		print("I'm inside setupLocationManager - isInitialLocationObtained: \(isInitialLocationObtained)")
+		//		print("I'm inside setupLocationManager - isInitialLocationObtained: \(isInitialLocationObtained)")
 		LMDelegate.delegate = self
 		LMDelegate.requestLocation()
 		setPrecision()
@@ -128,9 +126,9 @@ var isAuthorizedForPreciseLocation							= true
 		setupLocationManager()
 	}
 
-// MARK: - didUpdateLocations
+	// MARK: - didUpdateLocations
 	func locationManager(_ manager: CLLocationManager,
-						 didUpdateLocations GPSLocation: 	[CLLocation]) {
+								didUpdateLocations GPSLocation: 	[CLLocation]) {
 		// check to verify there is a valid initial location
 
 		guard let isLocation 									= GPSLocation.last else {
@@ -141,7 +139,7 @@ var isAuthorizedForPreciseLocation							= true
 
 		GPSAccuracy = isLocation.horizontalAccuracy // set GPSIcon accuracy value
 		ShowEstablishGPSScreen = false // turn off "Establishing GPS" screen
-		// now set isInitialLocationObtained state 		= true
+												 // now set isInitialLocationObtained state 		= true
 		if !isInitialLocationObtained && isLocation.horizontalAccuracy <= 50.0 {
 			isInitialLocationObtained 	= true // got a clean new accurate initial location - change state
 			ShowEstablishGPSScreen 		= false // turn off the 'Establishing' screen
@@ -162,7 +160,7 @@ var isAuthorizedForPreciseLocation							= true
 				self.longitude 			= Double(location.coordinate.longitude)
 				self.currentCoords 		= location.coordinate
 				altitude 					= location.altitude * metersToFeet // * 3.28084
-  //  Append altitude to altitudes[] for point chart
+																							  //  Append altitude to altitudes[] for point chart
 				let newDataPoint 			= AltitudeDataPoint(value: altitude, dist: distance )
 				// collect coords for weather data
 				self.altitudes.append(newDataPoint)
@@ -178,7 +176,7 @@ var isAuthorizedForPreciseLocation							= true
 
 			blinkRecordBtn(true, 2)
 			guard let existingLocation = holdCLLocations.last else { return }
-			
+
 			// make certain we're not updating firstLocation unless it's the FIRST time it has a value
 			if firstLocation == nil {
 				firstLocation = existingLocation
@@ -199,11 +197,11 @@ var isAuthorizedForPreciseLocation							= true
 				isWorkoutLive 					= true
 				initRun 							= false // are you sure this should be false? Tuesday December 12, 2023 at 2:00:38 PM
 			}
-	// TODO: - previous CLLocation.distance update routine commeted below
+			// TODO: - previous CLLocation.distance update routine commeted below
 			//				calcDistance(currentLocation: existingLocation,
 			//								 prevLocation: lastLocation ?? CLLocation())
 			//			}
-	// MARK: - THIS IS WHERE distance is updated
+			// MARK: - THIS IS WHERE distance is updated
 			// i'm usig .calcFromLastLocation vs. incrementing the
 			// distance... and this makes me SO happy!!! Sunday October 29, 2023 at 11:47:49 AM
 			if !YMCalc { // YARDS calculation
@@ -211,9 +209,9 @@ var isAuthorizedForPreciseLocation							= true
 				distance 	= locationsArray.calcFromLastLocation / metersToYards
 			} else { // MILES calc
 				distance		= locationsArray.calculatedDistance / metersToMiles
-			//	isSpeed		= true // show speed and time option
+				//	isSpeed		= true // show speed and time option
 			}
-			// 
+			//
 			//			self.distance 			= GPSLocation.distance / metersToMiles // use the CLLocation array extension .distance to calculate distance
 			lastDist			= distance
 			lastLocation	= existingLocation
@@ -235,14 +233,14 @@ var isAuthorizedForPreciseLocation							= true
 			}
 		}
 	}
-	
-	func locationManager(_ manager: CLLocationManager, 
-						 didFailWithError error: Error) {
+
+	func locationManager(_ manager: CLLocationManager,
+								didFailWithError error: Error) {
 		print("-- RIGHT HERE **** LMDelegate authorizationStatus = \(LMDelegate.authorizationStatus.rawValue)\n--------\n")
 		print("LocationManager LM - locationManager failed with error: \(error.localizedDescription)")
 		getCLAuth(manager)
 	}
-	
+
 	/// start the CLLocation updates
 	func startUpdates() {
 		if self.LMDelegate.authorizationStatus !=  .authorizedWhenInUse {
@@ -265,20 +263,20 @@ var isAuthorizedForPreciseLocation							= true
 			}
 		}
 	}
-	
-	func locationManager(_ manager: CLLocationManager, 
-						 didChangeAuthorization status: CLAuthorizationStatus) {
-//		print("didChangeAuthorization status: \(status.rawValue)")
+
+	func locationManager(_ manager: CLLocationManager,
+								didChangeAuthorization status: CLAuthorizationStatus) {
+		//		print("didChangeAuthorization status: \(status.rawValue)")
 		switch status {
-		case .authorizedAlways, .authorizedWhenInUse: // we're good, move on
-			return
-		case .notDetermined, .denied, .restricted:
-			getCLAuth(manager)
-		@unknown default:
-			fatalError()
+			case .authorizedAlways, .authorizedWhenInUse: // we're good, move on
+				return
+			case .notDetermined, .denied, .restricted:
+				getCLAuth(manager)
+			@unknown default:
+				fatalError()
 		}
 	}
-	
+
 	func numTimerHours() -> Int {
 		return Int(elapsedTime / 3600) // 3600 = convert to minutes
 	}
@@ -289,23 +287,23 @@ var isAuthorizedForPreciseLocation							= true
 		if !YMCalc {  // YARDS
 			if let originalLocation = firstLocation {
 				let thisDistance = currentLocation.distance(from: originalLocation) * metersToYards
-//				print("thisDistance = \(thisDistance) x \(metersToYards) = \(thisDistance * metersToYards)")
+				//				print("thisDistance = \(thisDistance) x \(metersToYards) = \(thisDistance * metersToYards)")
 				distance 			= thisDistance * metersToYards // currentLocation.distance(from: originalLocation) * metersToFeet
-//				distance 			= currentLocation.distance(from: originalLocation) / metersToYards // 0.9144
+																				 //				distance 			= currentLocation.distance(from: originalLocation) / metersToYards // 0.9144
 				plusMinus 			= "="
 			}
-		} 
-//		else { // MILES
-//			if let lastLocation 	= lastLocation {
-//				prevDist				= distance ?? 0 // just to debug
-//				segmentDistance 	= currentLocation.distance(from: prevLocation) / metersToMiles // 1609.344
-//				self.distance! 	+= segmentDistance
-//				speedDist 			= self.distance!
-//				plusMinus 			= "+="
-//			}
-//		}
+		}
+		//		else { // MILES
+		//			if let lastLocation 	= lastLocation {
+		//				prevDist				= distance ?? 0 // just to debug
+		//				segmentDistance 	= currentLocation.distance(from: prevLocation) / metersToMiles // 1609.344
+		//				self.distance! 	+= segmentDistance
+		//				speedDist 			= self.distance!
+		//				plusMinus 			= "+="
+		//			}
+		//		}
 	}
-	
+
 	/// Stop the CLLocation update
 	/// - Parameter resetDist: true = all the counter be reset
 	/// - Returns: timeString
@@ -324,12 +322,12 @@ var isAuthorizedForPreciseLocation							= true
 		cleanVars 					= resetDist // didSet will handle reset
 		return timeString
 	}
-	
+
 	public func endWorkout() {
 		let activityType: HKWorkoutActivityType = .walking // .running
 		let startDate = Date()
 		let endDate = startDate.addingTimeInterval(3600) // 1 hour later
-		//      let duration = endDate.timeIntervalSince(startDate)
+																		 //      let duration = endDate.timeIntervalSince(startDate)
 		var workOut: HKWorkout {
 			return HKWorkout(activityType: 		activityType,
 								  start:					startDate,
@@ -339,7 +337,7 @@ var isAuthorizedForPreciseLocation							= true
 								  totalDistance: 		nil,
 								  metadata: 			[:])
 		}
-		
+
 		routeBuilder.finishRoute(with: 				workOut,
 										 metadata: 			nil,
 										 completion: { workoutRoute, error in
@@ -396,7 +394,7 @@ extension DistanceTracker { // misc helper methods
 			debugStr 	= "FL: nil | LL: nil"
 		}
 	}
-	
+
 	func stringFromTimeInterval(interval: TimeInterval) -> String {
 		let interval 	= Int(interval)
 		let seconds 	= interval % 60
@@ -404,7 +402,7 @@ extension DistanceTracker { // misc helper methods
 		let hours 		= (interval / 3600)
 		return hours > 0 ? String(format: "%02d:%02d:%02d", hours, minutes, seconds) : String(format: "%02d:%02d", minutes, seconds)
 	}
-	
+
 	func blinkRecordBtn(_ toggleState: Bool, _ blinkTime: Int) {
 		DispatchQueue.main.async {
 			if toggleState { self.isUpdating = true } else { self.isHealthUpdate = true }
@@ -414,45 +412,45 @@ extension DistanceTracker { // misc helper methods
 			}
 		}
 	}
-	
+
 	func resetVars() {
-//		DispatchQueue.main.async { [self] in
-			LMDelegate.stopUpdatingLocation()
-			resetLocationManager()
-			holdCLLocations.removeAll()
-			altitudes.removeAll()
-			currentCoords 					= CLLocationCoordinate2D()
-			holdCLLocations 				= []
-			locationsArray 				= []
-			longitude						= nil
-			latitude							= nil
-			firstLocation 					= nil
-			lastLocation 					= nil
-			initRun 							= true
-			isInitialLocationObtained 	= true
-			isUpdating 						= false
-			isHealthUpdate 				= false
-			weIsRecording 					= false
-			isWorkoutLive 					= false
-			ShowEstablishGPSScreen		= false
-			debugStr							= ""
-			superBug							= ""
-			finalDist						= distance // hold for summary screen. Set this prior to resetting Distance
-			distance 						= 0
-			prevDist							= 0
-			segmentDistance 				= 0
-			elapsedTime 					= 0
-			heartRate 						= 0
-			speedDist						= 0
-			lastHapticMile 				= 0
-			GPSAccuracy						= 97
-	//		lastDist							= 0
-	//		startStepCnt 					= 0
-	//		assertProperties()
-	//		heartRateReadings				= []
-	//		precisionrevealPropVals("resetVars")
-		}
-//	}
+		//		DispatchQueue.main.async { [self] in
+		LMDelegate.stopUpdatingLocation()
+		resetLocationManager()
+		holdCLLocations.removeAll()
+		altitudes.removeAll()
+		currentCoords 					= CLLocationCoordinate2D()
+		holdCLLocations 				= []
+		locationsArray 				= []
+		longitude						= nil
+		latitude							= nil
+		firstLocation 					= nil
+		lastLocation 					= nil
+		initRun 							= true
+		isInitialLocationObtained 	= true
+		isUpdating 						= false
+		isHealthUpdate 				= false
+		weIsRecording 					= false
+		isWorkoutLive 					= false
+		ShowEstablishGPSScreen		= false
+		debugStr							= ""
+		superBug							= ""
+		finalDist						= distance // hold for summary screen. Set this prior to resetting Distance
+		distance 						= 0
+		prevDist							= 0
+		segmentDistance 				= 0
+		elapsedTime 					= 0
+		heartRate 						= 0
+		speedDist						= 0
+		lastHapticMile 				= 0
+		GPSAccuracy						= 97
+		//		lastDist							= 0
+		//		startStepCnt 					= 0
+		//		assertProperties()
+		//		heartRateReadings				= []
+		//		precisionrevealPropVals("resetVars")
+	}
+	//	}
 
 	func assertProperties() {
 		print("-----------[ asserting properties ]---------------\n")
@@ -470,7 +468,7 @@ extension DistanceTracker { // misc helper methods
 		assert(self.distance 						== 0.0, 		"distance was not reset correctly")
 		assert(self.segmentDistance 				== 0.0, 		"holdDist was not reset correctly")
 		assert(self.elapsedTime 					== 0.0, 		"elapsedTime was not reset correctly")
-//		assert(self.heartRate 						== 0, 		"heartRate was not reset correctly")
+		//		assert(self.heartRate 						== 0, 		"heartRate was not reset correctly")
 		assert(self.lastHapticMile 				== 0, 		"lastHapticMile was not reset correctly")
 		assert(self.startStepCnt 					== 0, 		"startStepCnt was not reset correctly")
 		print("-----------[ END - asserting variables ]---------------\n\n")
@@ -535,16 +533,16 @@ extension DistanceTracker { // misc helper methods
 }
 
 extension DistanceTracker { // toggle stuff
-	
+
 	func toggleYMBool(_ ymState: Bool)  {
-YMCalc 	= ymState
-_ 			= stopUpdates(true)
+		YMCalc 	= ymState
+		_ 			= stopUpdates(true)
 	}
-	
+
 	func toggleYMBoolFalse() {
 		YMCalc 						= false
 	}
-	
+
 	func toggleWeIsRecording(_ RecState: Bool)  {
 		weIsRecording 				= RecState
 	}

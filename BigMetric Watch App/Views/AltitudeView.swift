@@ -10,11 +10,11 @@ import CoreMotion
 import Combine
 
 struct AltitudeView: View {
-   @EnvironmentObject var distanceTracker: DistanceTracker
+   var distanceTracker: DistanceTracker
    @State var isShowingSheet = false
    // ... other properties ...
    @State var screenBounds = WKInterfaceDevice.current().screenBounds
-   @StateObject private var altitudeManager = AltitudeManager()
+   @State private var altitudeManager = AltitudeManager()
    //// ------------- Main Button Colors --------------------
    @State var bgYardsStopTop = Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))
    @State var bgYardsStopBottom = Color(#colorLiteral(red: 1, green: 0.1271572973, blue: 0.969772532, alpha: 1))
@@ -54,7 +54,6 @@ struct AltitudeView: View {
                .overlay(
                   VStack {
                      Text("\(gpNumFormat.formatNumber(distanceTracker.altitude, distanceTracker.altitude > 100 ? 0 : 2))'")
-                        .environmentObject(distanceTracker)
                         .font(.title)
                         .bold()
                         .lineLimit(1)
@@ -66,7 +65,7 @@ struct AltitudeView: View {
                )
             }
             .sheet(isPresented: $isShowingSheet) {
-               AltitudePointChart()
+					AltitudePointChart(distanceTracker: distanceTracker)
             }
          }
       }
@@ -79,10 +78,3 @@ struct AltitudeView: View {
    }
 }
 
-struct AltitudeView_Previews: PreviewProvider {
-   static var previews: some View {
-      AltitudeView()
-         .environmentObject(DistanceTracker())
-         .environmentObject(WorkoutManager())
-   }
-}

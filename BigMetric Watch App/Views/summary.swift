@@ -11,8 +11,8 @@ import Combine
 import HealthKit
 
 struct summary: View {
-	@EnvironmentObject 	var	distanceTracker: DistanceTracker
-	@EnvironmentObject 	var	workoutManager:WorkoutManager
+	@Bindable var distanceTracker: DistanceTracker
+	@Bindable var workoutManager:WorkoutManager
 	@Binding 				var	selectedTab:		Int
 	@State 			 		var	finalSteps: 		Int = 0
 	@State 			 		var	durationFormatter: DateComponentsFormatter = {
@@ -115,14 +115,12 @@ struct summary: View {
 				.navigationBarTitleDisplayMode(.inline)
 			}
 		}
-		.environmentObject(distanceTracker)
-		.environmentObject(workoutManager)
 	}
 }
 
 struct SummaryMetricView: View {
-	@EnvironmentObject var distanceTracker: DistanceTracker
-	@EnvironmentObject var workoutManager:WorkoutManager
+//	@EnvironmentObject var distanceTracker: DistanceTracker
+//	@EnvironmentObject var workoutManager:WorkoutManager
 
 	var title: String
 	var value: String
@@ -143,8 +141,6 @@ struct SummaryMetricView: View {
 					.foregroundColor(Color.gpBlue)
 			}
 		}
-		.environmentObject(distanceTracker)
-		.environmentObject(workoutManager)
 		Divider()
 	}
 }

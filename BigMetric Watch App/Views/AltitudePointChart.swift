@@ -9,8 +9,8 @@ import SwiftUI
 import Charts
 
 struct AltitudePointChart: View {
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   var screenBounds = WKInterfaceDevice.current().screenBounds
+var distanceTracker: DistanceTracker
+var screenBounds = WKInterfaceDevice.current().screenBounds
 
    var body: some View {
       VStack {
@@ -37,9 +37,3 @@ struct AltitudeDataPoint: Identifiable {
    let dist: Double
 }
 
-struct AltitudePointChart_Previews: PreviewProvider {
-    static var previews: some View {
-        AltitudePointChart()
-          .environmentObject(DistanceTracker())
-    }
-}

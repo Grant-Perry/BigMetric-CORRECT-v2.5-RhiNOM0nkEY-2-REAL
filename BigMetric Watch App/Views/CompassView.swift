@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+//import Observation
 
 struct CompassView: View {
    @State var screenBounds = WKInterfaceDevice.current().screenBounds
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject var workoutManager:WorkoutManager
-   @Binding var heading: Double
-   @Binding var routeHeading: Double
+   let workoutManager: WorkoutManager
+//   @Binding var heading: Double
+   @State var heading: Double
+   @State var routeHeading: Double
    @State var bgStart = Color(#colorLiteral(red: 0.3098039329, green: 0.01568627544, blue: 0.1294117719, alpha: 1))
    @State var bgStop = Color(#colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1))
 
@@ -57,20 +58,6 @@ struct CompassView: View {
             .foregroundColor(.gpMinty)
          }
       }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
       .font(/*@START_MENU_TOKEN@*/.headline/*@END_MENU_TOKEN@*/)
    }
 }
-
-//struct CompassView_Previews: PreviewProvider {
-//   static var previews: some View {
-//      CompassView(heading: .constant(0),
-//                  routeHeading: .constant(0))
-//      .environmentObject(DistanceTracker())
-//      .environmentObject(WorkoutManager())
-//
-//
-//   }
-//
-//}

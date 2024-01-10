@@ -10,13 +10,16 @@ import WeatherKit
 import CoreLocation
 import SwiftUI
 
+
 struct WeatherStatsView: View {
-	@ObservedObject var weatherKitManager: WeatherKitManager
-	@EnvironmentObject var geoCodeHelper: GeoCodeHelper
-	@EnvironmentObject var distanceTracker: DistanceTracker
+	@Bindable var weatherKitManager: WeatherKitManager
+	@Bindable var distanceTracker: DistanceTracker
+	@Bindable var geoCodeHelper: GeoCodeHelper
+
+//	@Binding
 	@Binding var showWeatherStatsView: Bool
 	@State private var address = ""
-	var hotColdFirst = true
+	
 	var nextHrTemp: Double { Double(weatherKitManager.tempHour) ?? 0 }
 	var thisHrtemp: Double { Double(weatherKitManager.tempVar) ?? 0 }
 	var nextHrTempColor: Color { PrecipChanceColor.from(chance: Int(nextHrTemp)) }
@@ -54,13 +57,13 @@ struct WeatherStatsView: View {
 				Spacer()
 				Group {
 					HStack {
-						Text("\(weatherKitManager.highTempVar)°")
-							.foregroundColor(TemperatureColor.from(temperature: Double(hotColdFirst ? weatherKitManager.highTempVar : weatherKitManager.lowTempVar)!))
+						Text("\(distanceTracker.hotColdFirst ? weatherKitManager.highTempVar : weatherKitManager.lowTempVar)°")
+							.foregroundColor(TemperatureColor.from(temperature: Double(distanceTracker.hotColdFirst ? weatherKitManager.highTempVar : weatherKitManager.lowTempVar)!))
 							.foregroundColor(.gpBlue)
 						Text(" / ")
 							.foregroundColor(.white)
-						Text("\(weatherKitManager.lowTempVar)°")
-							.foregroundColor(TemperatureColor.from(temperature: Double(hotColdFirst ? weatherKitManager.lowTempVar : weatherKitManager.highTempVar)!))
+						Text("\(distanceTracker.hotColdFirst ? weatherKitManager.lowTempVar : weatherKitManager.highTempVar)°")
+							.foregroundColor(TemperatureColor.from(temperature: Double(distanceTracker.hotColdFirst ? weatherKitManager.lowTempVar : weatherKitManager.highTempVar)!))
 					}
 					.font(.system(size: 13))
 
@@ -125,8 +128,8 @@ struct WeatherStatsView: View {
 			}
 			Spacer()
 
-			let mainTemp = hotColdFirst ? forecast.maxTemp : forecast.minTemp
-			let secondTemp = hotColdFirst ? forecast.minTemp : forecast.maxTemp
+			let mainTemp = distanceTracker.hotColdFirst ? forecast.maxTemp : forecast.minTemp
+			let secondTemp = distanceTracker.hotColdFirst ? forecast.minTemp : forecast.maxTemp
 			let mainTemperatureColor = TemperatureColor.from(temperature: Double(mainTemp)!)
 			let secondaryTemperatureColor = TemperatureColor.from(temperature: Double(secondTemp)!)
 
@@ -147,15 +150,5 @@ struct WeatherStatsView: View {
 			.bold()
 		}
 	}
-	//      .padding()
 }
 
-struct WeatherStatsView_Previews: PreviewProvider {
-	static var previews: some View {
-		WeatherStatsView(weatherKitManager: WeatherKitManager(), showWeatherStatsView: .constant(true))
-			.environmentObject(WeatherKitManager())
-			.environmentObject(DistanceTracker())
-			.environmentObject(GeoCodeHelper())
-			.previewDisplayName("Debug Screen Preview")
-	}
-}

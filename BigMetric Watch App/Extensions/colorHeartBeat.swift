@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct colorHeartBeat: View {
-  @EnvironmentObject var distanceTracker: DistanceTracker
+//  var distanceTracker: DistanceTracker
 
    @State var measuring = false
 
@@ -52,9 +52,3 @@ struct colorHeartBeat: View {
     }
 }
 
-
-struct colorHeartBeat_Previews: PreviewProvider {
-    static var previews: some View {
-        colorHeartBeat()
-    }
-}

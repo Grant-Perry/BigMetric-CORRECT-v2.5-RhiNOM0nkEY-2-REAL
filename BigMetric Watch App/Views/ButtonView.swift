@@ -10,11 +10,6 @@ import SwiftUI
 import WatchKit
 
 struct ButtonView: View {
-
-   @EnvironmentObject var distanceTracker: DistanceTracker
-   @EnvironmentObject var workoutManager: WorkoutManager
-//   @Binding var selectedTab: Int
-
    var stateBtnColor 	= Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
    var startColor 		= Color(#colorLiteral(red: 1, green: 0.5409764051, blue: 0.8473142982, alpha: 1))
    var endColor 			= Color(#colorLiteral(red: 1, green: 0.1271572973, blue: 0.969772532, alpha: 1))
@@ -37,16 +32,7 @@ struct ButtonView: View {
                .frame(width: (screenBounds.width/1.5) * 0.97,
                       height: (screenBounds.height/1.5) * 0.97))
       }
-      .environmentObject(distanceTracker)
-      .environmentObject(workoutManager)
    }
-}
-
-
-#Preview {
-	ButtonView(stateBtnColor: Color(.white), isUp: true)
-         .environmentObject(DistanceTracker())
-         .environmentObject(WorkoutManager())
 }
 
 
