@@ -4,7 +4,7 @@
 //
 //  Created by: Grant Perry on 5/25/23.
 
-//			Trust ONLY this project Modified: Tuesday January 9, 2024 at 8:28:11 PM
+//			Trust ONLY this project Modified: Wednesday January 10, 2024 at 10:46:36 AM
 
 //			DEVELOP MODE branch
 
@@ -12,15 +12,15 @@ import SwiftUI
 
 let APP_NAME 		= "BigMetric"
 let APP_VERSION 	= "d2.9 RhiNO-M0nkEY"
-let MOD_DATE 		= "Mod: 1/9/24 - 8:28 PM"
+let MOD_DATE 		= "Mod: 1/10/24 - 10:49 AM"
 
 @main
 struct BigMetric_Watch_AppApp: App {
    @Environment(\.scenePhase) var scenePhase
-	@State var distanceTracker: DistanceTracker = DistanceTracker()
-	@State var workoutManager: WorkoutManager = WorkoutManager(distanceTracker: DistanceTracker())
-	@State var weatherKitManager: WeatherKitManager = WeatherKitManager(distanceTracker: DistanceTracker())
-	@State var geoCodeHelper: GeoCodeHelper = GeoCodeHelper(distanceTracker: DistanceTracker())
+	@State var distanceTracker: 		DistanceTracker = DistanceTracker()
+	@State var workoutManager: 		WorkoutManager = WorkoutManager(distanceTracker: DistanceTracker())
+	@State var weatherKitManager: 	WeatherKitManager = WeatherKitManager(distanceTracker: DistanceTracker())
+	@State var geoCodeHelper: 			GeoCodeHelper = GeoCodeHelper(distanceTracker: DistanceTracker())
    @State private var distanceTrackerInitialized = false
    @State private var selectedTab = 2
 	
