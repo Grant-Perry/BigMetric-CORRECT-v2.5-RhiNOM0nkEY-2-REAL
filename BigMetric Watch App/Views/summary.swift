@@ -55,7 +55,7 @@ struct summary: View {
 						Group {
 							SummaryMetricView(
 								title: "Total Steps:",
-								value: gpNumFormat.formatNumber(Double(finalSteps), 0))
+								value: gpNumFormat.formatNumber(Double(distanceTracker.workoutStepCount), 0))
 							.accentColor(.gpGreen)
 						}
 //						.onAppear {

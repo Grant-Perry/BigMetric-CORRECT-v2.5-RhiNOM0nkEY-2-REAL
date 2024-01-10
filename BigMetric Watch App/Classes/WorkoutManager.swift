@@ -40,9 +40,9 @@ class WorkoutManager: NSObject, CLLocationManagerDelegate {
 	var initialLocation: CLLocation?
 	var workout: HKWorkout?
 	var workoutSessionState: HKWorkoutSessionState = .notStarted
-	var heading 								= ""
+	var heading								= ""
 	var isLocateMgr: Bool 				= false
-	var distanceCollected: Double		= 0
+	var distanceCollected: Double	= 0
 	var averageHeartRate: Double 		= 0
 	var heartRate: Double 				= 0
 	var activeEnergy: Double 			= 0
@@ -56,7 +56,7 @@ class WorkoutManager: NSObject, CLLocationManagerDelegate {
 	var builder: HKLiveWorkoutBuilder?
 
 	// set up the locationManager to capture location coords
-	let locationManager = CLLocationManager()
+	let WMDelegate = CLLocationManager()
 	// property to initialize the HKWorkoutRouteBuilder
 	private var routeBuilder: HKWorkoutRouteBuilder?
 	var selectedWorkout: HKWorkoutActivityType? {
@@ -75,15 +75,15 @@ class WorkoutManager: NSObject, CLLocationManagerDelegate {
 	func startWorkout(workoutType: HKWorkoutActivityType) {
 		initialLocation 				= nil
 		let configuration = HKWorkoutConfiguration()
-		configuration.activityType 	= workoutType
-		configuration.locationType 	= .outdoor
+		configuration.activityType = workoutType
+		configuration.locationType = .outdoor
 
 		do {
-			session 						= try HKWorkoutSession(healthStore: healthStore,
+			session				= try HKWorkoutSession(healthStore: healthStore,
 																		  configuration: configuration)
-			builder 						= session?.associatedWorkoutBuilder()
-			session?.delegate 		= self
-			builder?.delegate 		= self
+			builder				= session?.associatedWorkoutBuilder()
+			session?.delegate	= self
+			builder?.delegate	= self
 		} catch {
 			// Handle any exceptions.
 			return
@@ -91,25 +91,26 @@ class WorkoutManager: NSObject, CLLocationManagerDelegate {
 
 		builder?.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
 																	 workoutConfiguration: configuration)
-		session?.delegate 				= self
-		builder?.delegate 				= self
+		session?.delegate = self
+		builder?.delegate = self
 
 		// Start the workout session and begin data collection.
 		let startDate = Date()
 		session?.startActivity(with: startDate)
-		builder?.beginCollection(withStart: startDate, completion: { success, error in
+		builder?.beginCollection(withStart: startDate, 
+										 completion: { success, error in
 			// The workout has started
 		})
 
 		// implement the locationManager delegate start...
-		locationManager.delegate = self
+		WMDelegate.delegate = self
 		DispatchQueue.main.async { [self] in
-			locationManager.requestWhenInUseAuthorization()
+			WMDelegate.requestWhenInUseAuthorization()
 		}
-		locationManager.distanceFilter		= distanceTracker.isPrecise ? 1 : 10
-		locationManager.desiredAccuracy	=  distanceTracker.isPrecise ? kCLLocationAccuracyBest : kCLLocationAccuracyNearestTenMeters
-		locationManager.allowsBackgroundLocationUpdates = true
-		locationManager.startUpdatingLocation()
+		WMDelegate.distanceFilter	= distanceTracker.isPrecise ? 1 : 10
+		WMDelegate.desiredAccuracy	=  distanceTracker.isPrecise ? kCLLocationAccuracyBest : kCLLocationAccuracyNearestTenMeters
+		WMDelegate.allowsBackgroundLocationUpdates = true
+		WMDelegate.startUpdatingLocation()
 		routeBuilder = HKWorkoutRouteBuilder(healthStore: healthStore, device: nil)
 	}
 
@@ -117,7 +118,7 @@ class WorkoutManager: NSObject, CLLocationManagerDelegate {
 								didUpdateLocations workoutLocations: [CLLocation]) {
 		// make certain there is a valid/current location returned
 		guard let _ = workoutLocations.last else {
-			distanceTracker.isInitialLocationObtained 	= false
+			distanceTracker.isInitialLocationObtained = false
 			//            print("/nSeeking Location inside WorkoutManager/n/n")
 			return
 		}
@@ -193,7 +194,7 @@ class WorkoutManager: NSObject, CLLocationManagerDelegate {
 			case .authorizedAlways, .authorizedWhenInUse:
 				return
 			case .notDetermined, .denied, .restricted:
-				locationManager.requestWhenInUseAuthorization()
+				WMDelegate.requestWhenInUseAuthorization()
 			@unknown default:
 				fatalError()
 		}
@@ -215,12 +216,12 @@ extension WorkoutManager {
 	// MARK: - State Control
 	func pause() {
 		session?.pause()
-		locationManager.stopUpdatingLocation()
+		WMDelegate.stopUpdatingLocation()
 	}
 
 	func resume() {
 		session?.resume()
-		locationManager.startUpdatingLocation()
+		WMDelegate.startUpdatingLocation()
 	}
 
 	func togglePause() {
@@ -308,7 +309,7 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
 				}
 			})
 			// stop locationManager updates
-			locationManager.stopUpdatingLocation()
+			WMDelegate.stopUpdatingLocation()
 		}
 	}
 

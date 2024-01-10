@@ -3,7 +3,7 @@
 //  howFar
 //
 //  Created by: Grant Perry on 1/28/23.
-//    Modified: Wednesday November 29, 2023 at 10:32:58 AM
+//    Modified: Wednesday January 10, 2024 at 1:09:29 PM
 //
 
 import SwiftUI
@@ -11,11 +11,11 @@ import SwiftUI
 
 struct debugScreen: View {
 
-	@Bindable var distanceTracker:		DistanceTracker
-	@Bindable var workoutManager:		WorkoutManager
-	@Bindable  var weatherKitManager: WeatherKitManager
-	@Bindable var geoCodeHelper:		GeoCodeHelper
-	@State var finalSteps: Int = 0
+	@Bindable	var distanceTracker:		DistanceTracker
+	@Bindable	var workoutManager:		WorkoutManager
+	@Bindable	var weatherKitManager: WeatherKitManager
+	@Bindable	var geoCodeHelper:		GeoCodeHelper
+	@State		var finalSteps: Int = 0
 	@State private var showWeatherStatsView = false
 
 	var body: some View {
@@ -27,7 +27,6 @@ struct debugScreen: View {
 						Spacer()
 						toggleBeep(distanceTracker: distanceTracker)
 						Button(action: {
-							//                      print("in DebugScreen - Current Coords: \(distanceTracker.currentCoords)")
 							weatherKitManager.getWeather(for: distanceTracker.currentCoords)
 							showWeatherStatsView = true
 						}) {
@@ -144,7 +143,7 @@ struct DebugSummary: View {
 					HStack(spacing: 4) {
 						Text(title)
 							.font(
-								.system(.footnote, design: .rounded))
+								.system(.caption, design: .rounded))
 							.multilineTextAlignment(.trailing)
 							.frame(width: 80, alignment: .trailing)
 							.foregroundColor(.accentColor)
@@ -156,7 +155,7 @@ struct DebugSummary: View {
 			VStack {
 				Text(val)
 					.font(
-						.system(.title3, design: .rounded))
+						.system(.callout, design: .rounded))
 					.frame(alignment: .leading)
 					.foregroundColor(.accentColor)
 					.padding(.bottom, 2)
@@ -165,6 +164,8 @@ struct DebugSummary: View {
 		}
 
 		Divider()
+			.foregroundColor(.gpBlue)
+			.fontWeight(.heavy)
 	}
 }
 

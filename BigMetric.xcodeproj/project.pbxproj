@@ -236,6 +236,7 @@
 		9BC4F0FA2A27863E00A5D42E /* PolyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyMapView.swift; sourceTree = "<group>"; };
 		9BC4F0FC2A27866400A5D42E /* WorkoutMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutMap.swift; sourceTree = "<group>"; };
 		9BC4F0FE2A27867D00A5D42E /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		9BF644422B4F4DFC00475EDC /* newMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newMapView.swift; sourceTree = "<group>"; };
 		9BFFD9572A25726D00A8D400 /* WeatherKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WeatherKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.4.sdk/System/Library/Frameworks/WeatherKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -556,6 +557,7 @@
 				9BC4F0FC2A27866400A5D42E /* WorkoutMap.swift */,
 				9BC4F0FE2A27867D00A5D42E /* Map.swift */,
 				9B4281C32A1FFF5900C696A6 /* ContentView.swift */,
+				9BF644422B4F4DFC00475EDC /* newMapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

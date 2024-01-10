@@ -365,9 +365,9 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 						// subtract the initial steps
 						// This holds the cumulative steps because the pedometer lifecycle
 						// may be shorter than the overall workout
-						DispatchQueue.main.async { [self] in
+//						DispatchQueue.main.async { [self] in
 							workoutStepCount += holdInitialSteps > 0 ? Int(truncating: stepData.numberOfSteps) - holdInitialSteps : 0
-						}
+//						}
 					}
 				}
 				//				}
