@@ -2,7 +2,8 @@
 //  WeatherStatsView.swift
 //  howFar Watch App
 //
-//  Created by Grant Perry on 4/23/23.
+//  Created by Grant Perry on 4/23/23
+//		Modified: Thursday January 11, 2024 at 9:33:06 AM
 //
 
 import Foundation
@@ -16,10 +17,8 @@ struct WeatherStatsView: View {
 	@Bindable var distanceTracker: DistanceTracker
 	@Bindable var geoCodeHelper: GeoCodeHelper
 
-//	@Binding
 	@Binding var showWeatherStatsView: Bool
 	@State private var address = ""
-	
 	var nextHrTemp: Double { Double(weatherKitManager.tempHour) ?? 0 }
 	var thisHrtemp: Double { Double(weatherKitManager.tempVar) ?? 0 }
 	var nextHrTempColor: Color { PrecipChanceColor.from(chance: Int(nextHrTemp)) }
@@ -127,22 +126,20 @@ struct WeatherStatsView: View {
 					.bold()
 			}
 			Spacer()
-
+//MARK: - the conditions & temp value just under the miles
 			let mainTemp = distanceTracker.hotColdFirst ? forecast.maxTemp : forecast.minTemp
 			let secondTemp = distanceTracker.hotColdFirst ? forecast.minTemp : forecast.maxTemp
 			let mainTemperatureColor = TemperatureColor.from(temperature: Double(mainTemp)!)
 			let secondaryTemperatureColor = TemperatureColor.from(temperature: Double(secondTemp)!)
-
 			HStack {
-				Text("\(mainTemp)°")
-					.foregroundColor(mainTemperatureColor)
+				Text("\(distanceTracker.hotColdFirst ? mainTemp : secondTemp)°")
+					.foregroundColor(distanceTracker.hotColdFirst ? mainTemperatureColor : secondaryTemperatureColor)
 					.font(.system(size: 17))
-
 				Text("/")
 					.foregroundColor(.white)
+				Text("\(				Text("\(distanceTracker.hotColdFirst ? secondTemp : mainTemp)°"))°")
+					.foregroundColor(distanceTracker.hotColdFirst ? secondaryTemperatureColor : mainTemperatureColor)
 
-				Text("\(secondTemp)°")
-					.foregroundColor(secondaryTemperatureColor)
 					.font(.system(size: 17))
 			}
 

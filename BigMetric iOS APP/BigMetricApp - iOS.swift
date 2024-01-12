@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import CoreLocation
+
+var holdRouteCoords: [CLLocationCoordinate2D]?
 
 @main
 struct BigMetricApp: App {

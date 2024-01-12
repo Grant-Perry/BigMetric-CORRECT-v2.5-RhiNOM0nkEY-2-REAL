@@ -12,13 +12,13 @@
 		9B3E78B12B43231C00DEFAB4 /* GPSAccuracyColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E78B02B43231C00DEFAB4 /* GPSAccuracyColor.swift */; };
 		9B3E78B32B43267E00DEFAB4 /* GPSIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E78B22B43267E00DEFAB4 /* GPSIconView.swift */; };
 		9B3E78B72B433A9E00DEFAB4 /* ShowTimeOrSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E78B62B433A9E00DEFAB4 /* ShowTimeOrSpeed.swift */; };
-		9B4281C22A1FFF5900C696A6 /* BigMetricApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281C12A1FFF5900C696A6 /* BigMetricApp.swift */; };
+		9B4281C22A1FFF5900C696A6 /* BigMetricApp - iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281C12A1FFF5900C696A6 /* BigMetricApp - iOS.swift */; };
 		9B4281C42A1FFF5900C696A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281C32A1FFF5900C696A6 /* ContentView.swift */; };
 		9B4281C62A1FFF5A00C696A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4281C52A1FFF5A00C696A6 /* Assets.xcassets */; };
 		9B4281D32A1FFF5A00C696A6 /* BigMetricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281D22A1FFF5A00C696A6 /* BigMetricTests.swift */; };
 		9B4281DD2A1FFF5A00C696A6 /* BigMetricUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281DC2A1FFF5A00C696A6 /* BigMetricUITests.swift */; };
 		9B4281DF2A1FFF5A00C696A6 /* BigMetricUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281DE2A1FFF5A00C696A6 /* BigMetricUITestsLaunchTests.swift */; };
-		9B4281EA2A1FFF5A00C696A6 /* BigMetricApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281E92A1FFF5A00C696A6 /* BigMetricApp.swift */; };
+		9B4281EA2A1FFF5A00C696A6 /* BigMetricApp - Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281E92A1FFF5A00C696A6 /* BigMetricApp - Watch.swift */; };
 		9B4281EC2A1FFF5A00C696A6 /* BigMetriciOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281EB2A1FFF5A00C696A6 /* BigMetriciOSApp.swift */; };
 		9B4281FB2A1FFF5B00C696A6 /* BigMetric_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281FA2A1FFF5B00C696A6 /* BigMetric_Watch_AppTests.swift */; };
 		9B4282052A1FFF5B00C696A6 /* BigMetric_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4282042A1FFF5B00C696A6 /* BigMetric_Watch_AppUITests.swift */; };
@@ -77,6 +77,10 @@
 		9B4282902A20053400C696A6 /* locationProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B42828D2A20053400C696A6 /* locationProgressView.swift */; };
 		9B4282962A2013EA00C696A6 /* CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4282952A2013EA00C696A6 /* CLLocation.swift */; };
 		9B6AF5CE2A2552400066A2BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4281C52A1FFF5A00C696A6 /* Assets.xcassets */; };
+		9B9CDD302B519D2F00CCBA2E /* lookAroundMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9CDD2F2B519D2F00CCBA2E /* lookAroundMap.swift */; };
+		9B9CDD322B51AC5300CCBA2E /* mapNavBtns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9CDD312B51AC5300CCBA2E /* mapNavBtns.swift */; };
+		9B9CDD342B51CA7C00CCBA2E /* workoutLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9CDD332B51CA7C00CCBA2E /* workoutLocations.swift */; };
+		9B9CDD352B51CC4800CCBA2E /* BigMetriciOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4281EB2A1FFF5A00C696A6 /* BigMetriciOSApp.swift */; };
 		9BA2A3F02A2790B000179AF2 /* WeatherKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BFFD9572A25726D00A8D400 /* WeatherKit.framework */; };
 		9BC4F0E42A262F4300A5D42E /* WeatherKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC4F0E32A262F4300A5D42E /* WeatherKit.framework */; };
 		9BC4F0E72A27839200A5D42E /* Helthkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC4F0E62A27839200A5D42E /* Helthkit.swift */; };
@@ -88,7 +92,7 @@
 		9BC4F0F82A2785FC00A5D42E /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC4F0F72A2785FC00A5D42E /* Modifiers.swift */; };
 		9BC4F0FB2A27863E00A5D42E /* PolyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC4F0FA2A27863E00A5D42E /* PolyMapView.swift */; };
 		9BC4F0FD2A27866400A5D42E /* WorkoutMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC4F0FC2A27866400A5D42E /* WorkoutMap.swift */; };
-		9BC4F0FF2A27867D00A5D42E /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC4F0FE2A27867D00A5D42E /* Map.swift */; };
+		9BC4F0FF2A27867D00A5D42E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC4F0FE2A27867D00A5D42E /* MapView.swift */; };
 		9BFFD95C2A25772B00A8D400 /* BigMetric Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 9B4281E42A1FFF5A00C696A6 /* BigMetric Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -151,7 +155,7 @@
 		9B3E78B22B43267E00DEFAB4 /* GPSIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSIconView.swift; sourceTree = "<group>"; };
 		9B3E78B62B433A9E00DEFAB4 /* ShowTimeOrSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTimeOrSpeed.swift; sourceTree = "<group>"; };
 		9B4281BE2A1FFF5900C696A6 /* BigMetric.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BigMetric.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B4281C12A1FFF5900C696A6 /* BigMetricApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigMetricApp.swift; sourceTree = "<group>"; };
+		9B4281C12A1FFF5900C696A6 /* BigMetricApp - iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "BigMetricApp - iOS.swift"; path = "BigMetric iOS APP/BigMetricApp - iOS.swift"; sourceTree = "<group>"; };
 		9B4281C32A1FFF5900C696A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9B4281C52A1FFF5A00C696A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B4281C82A1FFF5A00C696A6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -161,7 +165,7 @@
 		9B4281DC2A1FFF5A00C696A6 /* BigMetricUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigMetricUITests.swift; sourceTree = "<group>"; };
 		9B4281DE2A1FFF5A00C696A6 /* BigMetricUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigMetricUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9B4281E42A1FFF5A00C696A6 /* BigMetric Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BigMetric Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B4281E92A1FFF5A00C696A6 /* BigMetricApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigMetricApp.swift; sourceTree = "<group>"; };
+		9B4281E92A1FFF5A00C696A6 /* BigMetricApp - Watch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BigMetricApp - Watch.swift"; sourceTree = "<group>"; };
 		9B4281EB2A1FFF5A00C696A6 /* BigMetriciOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigMetriciOSApp.swift; sourceTree = "<group>"; };
 		9B4281F02A1FFF5B00C696A6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9B4281F62A1FFF5B00C696A6 /* BigMetric Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigMetric Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +229,9 @@
 		9B4282952A2013EA00C696A6 /* CLLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocation.swift; sourceTree = "<group>"; };
 		9B4282972A2035CB00C696A6 /* BigMetric.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BigMetric.entitlements; sourceTree = "<group>"; };
 		9B4282982A20362E00C696A6 /* BigMetric Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BigMetric Watch App.entitlements"; sourceTree = "<group>"; };
+		9B9CDD2F2B519D2F00CCBA2E /* lookAroundMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lookAroundMap.swift; sourceTree = "<group>"; };
+		9B9CDD312B51AC5300CCBA2E /* mapNavBtns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapNavBtns.swift; sourceTree = "<group>"; };
+		9B9CDD332B51CA7C00CCBA2E /* workoutLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = workoutLocations.swift; sourceTree = "<group>"; };
 		9BC4F0E32A262F4300A5D42E /* WeatherKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WeatherKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/WeatherKit.framework; sourceTree = DEVELOPER_DIR; };
 		9BC4F0E62A27839200A5D42E /* Helthkit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helthkit.swift; sourceTree = "<group>"; };
 		9BC4F0E82A2783D100A5D42E /* WorkoutListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListItem.swift; sourceTree = "<group>"; };
@@ -235,7 +242,7 @@
 		9BC4F0F72A2785FC00A5D42E /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		9BC4F0FA2A27863E00A5D42E /* PolyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyMapView.swift; sourceTree = "<group>"; };
 		9BC4F0FC2A27866400A5D42E /* WorkoutMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutMap.swift; sourceTree = "<group>"; };
-		9BC4F0FE2A27867D00A5D42E /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		9BC4F0FE2A27867D00A5D42E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		9BF644422B4F4DFC00475EDC /* newMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newMapView.swift; sourceTree = "<group>"; };
 		9BFFD9572A25726D00A8D400 /* WeatherKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WeatherKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.4.sdk/System/Library/Frameworks/WeatherKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -292,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				9B1A57752B3F74D40060ABA7 /* GradientPolylineRenderer.swift */,
+				9B9CDD332B51CA7C00CCBA2E /* workoutLocations.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -302,7 +310,8 @@
 				9B4281C52A1FFF5A00C696A6 /* Assets.xcassets */,
 				9B4282972A2035CB00C696A6 /* BigMetric.entitlements */,
 				9B4281C72A1FFF5A00C696A6 /* Preview Content */,
-				9B4281E92A1FFF5A00C696A6 /* BigMetricApp.swift */,
+				9B4281E92A1FFF5A00C696A6 /* BigMetricApp - Watch.swift */,
+				9B4281C12A1FFF5900C696A6 /* BigMetricApp - iOS.swift */,
 				9B4281EB2A1FFF5A00C696A6 /* BigMetriciOSApp.swift */,
 				9B4281C02A1FFF5900C696A6 /* BigMetric iOS APP */,
 				9B4281E82A1FFF5A00C696A6 /* BigMetric Watch App */,
@@ -335,7 +344,7 @@
 				9BC4F0E52A27836F00A5D42E /* Helpers */,
 				9B4281D12A1FFF5A00C696A6 /* BigMetricTests */,
 				9B4281DB2A1FFF5A00C696A6 /* BigMetricUITests */,
-				9B4281C12A1FFF5900C696A6 /* BigMetricApp.swift */,
+				9B9CDD2F2B519D2F00CCBA2E /* lookAroundMap.swift */,
 			);
 			path = "BigMetric iOS APP";
 			sourceTree = "<group>";
@@ -555,9 +564,10 @@
 			children = (
 				9BC4F0FA2A27863E00A5D42E /* PolyMapView.swift */,
 				9BC4F0FC2A27866400A5D42E /* WorkoutMap.swift */,
-				9BC4F0FE2A27867D00A5D42E /* Map.swift */,
+				9BC4F0FE2A27867D00A5D42E /* MapView.swift */,
 				9B4281C32A1FFF5900C696A6 /* ContentView.swift */,
 				9BF644422B4F4DFC00475EDC /* newMapView.swift */,
+				9B9CDD312B51AC5300CCBA2E /* mapNavBtns.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -791,20 +801,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B9CDD352B51CC4800CCBA2E /* BigMetriciOSApp.swift in Sources */,
 				9BC4F0E72A27839200A5D42E /* Helthkit.swift in Sources */,
 				9BC4F0F52A2785B600A5D42E /* distElevCalc.swift in Sources */,
-				9BC4F0FF2A27867D00A5D42E /* Map.swift in Sources */,
+				9BC4F0FF2A27867D00A5D42E /* MapView.swift in Sources */,
 				9BC4F0EC2A27846600A5D42E /* ActivityType.swift in Sources */,
 				9B4281C42A1FFF5900C696A6 /* ContentView.swift in Sources */,
+				9B9CDD322B51AC5300CCBA2E /* mapNavBtns.swift in Sources */,
 				9BC4F0FD2A27866400A5D42E /* WorkoutMap.swift in Sources */,
 				9BC4F0F82A2785FC00A5D42E /* Modifiers.swift in Sources */,
+				9B9CDD342B51CA7C00CCBA2E /* workoutLocations.swift in Sources */,
 				9BC4F0FB2A27863E00A5D42E /* PolyMapView.swift in Sources */,
 				9B1A57762B3F74D40060ABA7 /* GradientPolylineRenderer.swift in Sources */,
 				9BC4F0F32A27858A00A5D42E /* CLLocation.swift in Sources */,
+				9B9CDD302B519D2F00CCBA2E /* lookAroundMap.swift in Sources */,
 				9BC4F0EE2A2784A100A5D42E /* WorkoutList.swift in Sources */,
 				9BC4F0E92A2783D100A5D42E /* WorkoutListItem.swift in Sources */,
 				9B1A57732B3F74480060ABA7 /* MKPolyLine.swift in Sources */,
-				9B4281C22A1FFF5900C696A6 /* BigMetricApp.swift in Sources */,
+				9B4281C22A1FFF5900C696A6 /* BigMetricApp - iOS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,7 +868,7 @@
 				9B4282212A20016F00C696A6 /* WorkoutManager.swift in Sources */,
 				9B42826C2A20046900C696A6 /* Date.swift in Sources */,
 				9B4282552A20043900C696A6 /* Atomic.swift in Sources */,
-				9B4281EA2A1FFF5A00C696A6 /* BigMetricApp.swift in Sources */,
+				9B4281EA2A1FFF5A00C696A6 /* BigMetricApp - Watch.swift in Sources */,
 				9B42826B2A20046900C696A6 /* HKExtensions.swift in Sources */,
 				9B42828F2A20053400C696A6 /* AlertView.swift in Sources */,
 				9B4282802A20049400C696A6 /* Cardinal.swift in Sources */,

@@ -18,6 +18,7 @@ struct WorkoutMap: View {
    @State var cursor 						= 0
    @State var routes: [[CLLocation]] 	= []
    @State var hasMore 						= false
+//	@State var holdRouteCoords: [CLLocationCoordinate2D]? = nil
 
    func drawRoute(_ route: [CLLocation]) {
       let coordinates = route.map({ (location: CLLocation) in
@@ -28,6 +29,32 @@ struct WorkoutMap: View {
 									 count: coordinates.count)
       map.mapView.addOverlay(line, level: .aboveRoads)
    }
+
+	let gradient = LinearGradient(
+		colors: [.red, .green, .blue],
+		startPoint: .leading, endPoint: .trailing)
+
+	let stroke = StrokeStyle(
+		lineWidth: 5,
+		lineCap: .round, lineJoin: .round, dash: [10, 10])
+
+// implement new iOS 17 MapKit features for MapPolyline
+
+//	var walkingCoordinates: [CLLocationCoordinate2D]
+
+
+
+//	var body: some View {
+//		Map {
+//			MapPolyline(coordinates: walkingCoordinates)
+//				.stroke(gradient, style: stroke)
+//		}
+//	}
+
+
+
+
+
 
    func focusLocations() {
       guard routes.count > 0 else {
@@ -72,8 +99,14 @@ struct WorkoutMap: View {
       NavigationView {
          VStack {
             ZStack {
-               MapView(mapView: self.map.mapView)
-                  .ignoresSafeArea()
+
+					Map {
+						MapPolyline(coordinates: holdRouteCoords!)
+							.stroke(gradient)
+					}
+//
+//               MapView(mapView: self.map.mapView)
+//                  .ignoresSafeArea()
 
                if loadingProgress < 1 {
                   HStack {
@@ -109,7 +142,7 @@ struct WorkoutMap: View {
             }
          }
          .task {
-            guard let workouts = await readWorkouts(1000) else {
+            guard let workouts = await readWorkouts(400) else {
                return
             }
             self.workouts = workouts

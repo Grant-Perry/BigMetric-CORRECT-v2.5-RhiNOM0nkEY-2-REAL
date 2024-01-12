@@ -114,136 +114,138 @@ struct debugScreen: View {
 		 */
 		.onAppear {
 			weatherKitManager.getWeather(for: distanceTracker.currentCoords)
-			distanceTracker.queryStepCount { steps in
-				if let steps = steps {
-					finalSteps = steps - distanceTracker.startStepCnt // how many steps THIS workout
-				} else {
-					print("Error retrieving step count for debugScreen view.")
-				}
-			}
+			//			distanceTracker.queryStepCount { steps in
+			//				if let steps = steps {
+			//					finalSteps = steps - distanceTracker.startStepCnt // how many steps THIS workout
+			//				} else {
+			//					print("Error retrieving step count for debugScreen view.")
+			//				}
+			//			}
 		}
 		//      .id(UUID()) // force refresh
 		.padding()
 #endif
 	}
-}
 
-struct DebugSummary: View {
-	var icon: String
-	var title: String
-	var val: String
-	var body: some View {
-		HStack {
-			VStack {
-				HStack {
+
+	struct DebugSummary: View {
+		var icon: String
+		var title: String
+		var val: String
+
+		var body: some View {
+			HStack {
+				VStack {
 					HStack {
-						Image(systemName: icon)
+						HStack {
+							Image(systemName: icon)
+						}
+						.rightJustify()
+						HStack(spacing: 4) {
+							Text(title)
+								.font(
+									.system(.caption, design: .rounded))
+								.multilineTextAlignment(.trailing)
+								.frame(width: 80, alignment: .trailing)
+								.foregroundColor(.accentColor)
+								.padding(.trailing)
+						}
 					}
-					.rightJustify()
-					HStack(spacing: 4) {
-						Text(title)
-							.font(
-								.system(.caption, design: .rounded))
-							.multilineTextAlignment(.trailing)
-							.frame(width: 80, alignment: .trailing)
-							.foregroundColor(.accentColor)
-							.padding(.trailing)
-					}
+					.leftJustify()
+				}
+				VStack {
+					Text(val)
+						.font(
+							.system(.callout, design: .rounded))
+						.frame(alignment: .leading)
+						.foregroundColor(.accentColor)
+						.padding(.bottom, 2)
 				}
 				.leftJustify()
 			}
-			VStack {
-				Text(val)
-					.font(
-						.system(.callout, design: .rounded))
-					.frame(alignment: .leading)
-					.foregroundColor(.accentColor)
-					.padding(.bottom, 2)
-			}
-			.leftJustify()
+
+			Divider()
+				.foregroundColor(.gpBlue)
+				.fontWeight(.heavy)
 		}
-
-		Divider()
-			.foregroundColor(.gpBlue)
-			.fontWeight(.heavy)
 	}
-}
 
-struct toggleBeep: View {
-	@Bindable var distanceTracker: DistanceTracker
-	//   var workoutManager: WorkoutManager
-	var body: some View {
-		VStack {
-			HStack {
-				Text("Summary:")
-					.frame(height: 30, alignment: .leading)
-					.font(.headline)
-					.foregroundColor(.gpPink)
-					.alignmentGuide(.top) { $0[.bottom] }
-					.baselineOffset(10)
-					.leftJustify()
-					.padding(.top, -20)
-				Spacer()
-				Divider()
-			}
-			.frame(height: 55)
-			// MARK: - haptic & precise toggle buttons
+	struct toggleBeep: View {
+		@Bindable var distanceTracker: DistanceTracker
+		//   var workoutManager: WorkoutManager
+		var body: some View {
 			VStack {
-				ToggleRow(isOn: 		$distanceTracker.isBeep,
-							 iconName: 	"bell.fill",
-							 label: 		"Haptic:",
-							 trueLabel: "ON:",
-							 falseLabel:"OFF:",
-							 trueColor: .gpGreen,
-							 falseColor:.gpRed)
-
-				ToggleRow(isOn: 		$distanceTracker.isPrecise,
-							 iconName: 	"scope",
-							 label: 		"Precise:",
-							 trueLabel: "ON:",
-							 falseLabel:"OFF:",
-							 trueColor: .gpGreen,
-							 falseColor:.gpRed)
-			}
-
-			HStack {
-				Spacer()
-			}
-			HStack {
-				Spacer()
-			}
-		}
-		Divider()
-	}
-}
-
-// the toggle button views for the debugScreen
-struct ToggleRow: View {
-	@Binding var isOn: 		Bool
-	let 		iconName: 		String
-	let 		label: 			String
-	let 		trueLabel: 		String
-	let 		falseLabel: 	String
-	let 		trueColor: 		Color
-	let 		falseColor: 	Color
-
-	var body: some View {
-		HStack {
-			Image(systemName: iconName)
-			Toggle(isOn: $isOn) {
 				HStack {
-					Text(label)
-						.rightJustify()
-						.font(.footnote)
-						.foregroundColor(isOn ? trueColor : falseColor)
-					Text(isOn ? trueLabel : falseLabel)
-						.foregroundColor(isOn ? trueColor : falseColor)
+					Text("Summary:")
+						.frame(height: 30, alignment: .leading)
+						.font(.headline)
+						.foregroundColor(.gpPink)
+						.alignmentGuide(.top) { $0[.bottom] }
+						.baselineOffset(10)
+						.leftJustify()
+						.padding(.top, -20)
+					Spacer()
+					Divider()
+				}
+				.frame(height: 55)
+				// MARK: - haptic & precise toggle buttons
+				VStack {
+					ToggleRow(isOn: 		$distanceTracker.isBeep,
+								 iconName: 	"bell.fill",
+								 label: 		"Haptic:",
+								 trueLabel: "ON:",
+								 falseLabel:"OFF:",
+								 trueColor: .gpGreen,
+								 falseColor:.gpRed)
+
+					ToggleRow(isOn: 		$distanceTracker.isPrecise,
+								 iconName: 	"scope",
+								 label: 		"Precise:",
+								 trueLabel: "ON:",
+								 falseLabel:"OFF:",
+								 trueColor: .gpGreen,
+								 falseColor:.gpRed)
+				}
+
+				HStack {
+					Spacer()
+				}
+				HStack {
+					Spacer()
+				}
+			}
+			Divider()
+		}
+	}
+
+	// the toggle button views for the debugScreen
+	struct ToggleRow: View {
+		@Binding var isOn: 		Bool
+		let 		iconName: 		String
+		let 		label: 			String
+		let 		trueLabel: 		String
+		let 		falseLabel: 	String
+		let 		trueColor: 		Color
+		let 		falseColor: 	Color
+
+		var body: some View {
+			HStack {
+				Image(systemName: iconName)
+				Toggle(isOn: $isOn) {
+					HStack {
+						Text(label)
+							.rightJustify()
+							.font(.footnote)
+							.foregroundColor(isOn ? trueColor : falseColor)
+						Text(isOn ? trueLabel : falseLabel)
+							.foregroundColor(isOn ? trueColor : falseColor)
+					}
+					.font(.footnote)
 				}
 				.font(.footnote)
+				.padding(.trailing)
+				Spacer()
 			}
-			.font(.footnote)
-			.padding(.trailing)
-			Spacer()
 		}
 	}
 }
@@ -259,3 +261,5 @@ extension debugScreen {
 		return speed
 	}
 }
+
+

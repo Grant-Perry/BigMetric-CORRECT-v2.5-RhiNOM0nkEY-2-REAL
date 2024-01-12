@@ -355,7 +355,6 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 	func startPedometer(startStop: Bool) {
 		if CMPedometer.isStepCountingAvailable() {
 			if startStop {
-				//				DispatchQueue.main.async { [self] in
 				// let's start the pedometer
 				let calendar = Calendar.current
 				let midnight = calendar.startOfDay(for: Date())
@@ -365,12 +364,9 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 						// subtract the initial steps
 						// This holds the cumulative steps because the pedometer lifecycle
 						// may be shorter than the overall workout
-//						DispatchQueue.main.async { [self] in
-							workoutStepCount += holdInitialSteps > 0 ? Int(truncating: stepData.numberOfSteps) - holdInitialSteps : 0
-//						}
+						workoutStepCount += holdInitialSteps > 0 ? Int(truncating: stepData.numberOfSteps) - holdInitialSteps : 0
 					}
 				}
-				//				}
 			} else {
 				// let's stop the pedometer
 				DispatchQueue.main.async { [self] in
@@ -451,29 +447,6 @@ extension DistanceTracker { // misc helper methods
 		//		precisionrevealPropVals("resetVars")
 	}
 	//	}
-
-	func assertProperties() {
-		print("-----------[ asserting properties ]---------------\n")
-		assert(self.holdCLLocations.isEmpty 	== true, 	"holdCLLocations was not reset correctly")
-		assert(self.altitudes.isEmpty 			== true, 	"altitudes was not reset correctly")
-		assert(self.firstLocation 					== nil, 		"firstLocation was not reset correctly")
-		assert(self.lastLocation 					== nil, 		"lastLocation was not reset correctly")
-		assert(self.initRun 							== true, 	"initRun was not reset correctly")
-		assert(self.isInitialLocationObtained 	== true, 	"isInitialLocationObtained was not reset correctly")
-		assert(self.isUpdating 						== false, 	"isUpdating was not reset correctly")
-		assert(self.isHealthUpdate 				== false, 	"isHealthUpdate was not reset correctly")
-		assert(self.weIsRecording 					== false, 	"weIsRecording was not reset correctly")
-		assert(self.isWorkoutLive 					== false, 	"isWorkoutLive was not reset correctly")
-		assert(self.holdCLLocations.isEmpty 	== true, 	"holdCLLocations was not reset correctly")
-		assert(self.distance 						== 0.0, 		"distance was not reset correctly")
-		assert(self.segmentDistance 				== 0.0, 		"holdDist was not reset correctly")
-		assert(self.elapsedTime 					== 0.0, 		"elapsedTime was not reset correctly")
-		//		assert(self.heartRate 						== 0, 		"heartRate was not reset correctly")
-		assert(self.lastHapticMile 				== 0, 		"lastHapticMile was not reset correctly")
-		assert(self.startStepCnt 					== 0, 		"startStepCnt was not reset correctly")
-		print("-----------[ END - asserting variables ]---------------\n\n")
-
-	}
 
 	func revealPropVals(_ label: String) {
 		//		print("workoutManager: \(workoutManager)")

@@ -15,7 +15,7 @@
 //	@ObservedObject var mapViewModel = MapViewModel()
 //	@StateObject var network = Network()
 //	private let locationManager = CLLocationManager()
-//	let geocoder = CLGeocoder()
+//	let geocoder = CLGocoder()
 //
 //	// Map properties
 //	@State private var cameraPosition: MapCameraPosition = .userLocation(followsHeading: true, fallback: .region(.paris))
