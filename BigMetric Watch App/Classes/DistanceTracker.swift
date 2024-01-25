@@ -197,13 +197,13 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 				isWorkoutLive 					= true
 				initRun 							= false // are you sure this should be false? Tuesday December 12, 2023 at 2:00:38 PM
 			}
-			// TODO: - previous CLLocation.distance update routine commeted below
+			// TODO: - previous CLLocation.distance update routine commented below
 			//				calcDistance(currentLocation: existingLocation,
 			//								 prevLocation: lastLocation ?? CLLocation())
 			//			}
 			// MARK: - THIS IS WHERE distance is updated
-			// i'm usig .calcFromLastLocation vs. incrementing the
-			// distance... and this makes me SO happy!!! Sunday October 29, 2023 at 11:47:49 AM
+			// i'm using .calcFromLastLocation vs. incrementing the distance var
+			// and this makes me SO happy!!! Sunday October 29, 2023 at 11:47:49 AM
 			if !YMCalc { // YARDS calculation
 				isSpeed		= false  // force the time to display and NOT speed - speed doesn't make sense to show for YARDS
 				distance 	= locationsArray.calcFromLastLocation / metersToYards
@@ -225,12 +225,12 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 				}
 			}
 #endif
-			debugStr = "debug"
-			buildDebugStr()
-			DispatchQueue.main.async {
-				self.superBug 	= self.debugStr + "\n\ndistance: " + String(self.distance)
-				self.debugStr 	= self.debugStr
-			}
+//			debugStr = "debug"
+//			buildDebugStr()
+//			DispatchQueue.main.async {
+//				self.superBug 	= self.debugStr + "\n\ndistance: " + String(self.distance)
+//				self.debugStr 	= self.debugStr
+//			}
 		}
 	}
 
@@ -287,21 +287,10 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 		if !YMCalc {  // YARDS
 			if let originalLocation = firstLocation {
 				let thisDistance = currentLocation.distance(from: originalLocation) * metersToYards
-				//				print("thisDistance = \(thisDistance) x \(metersToYards) = \(thisDistance * metersToYards)")
-				distance 			= thisDistance * metersToYards // currentLocation.distance(from: originalLocation) * metersToFeet
-																				 //				distance 			= currentLocation.distance(from: originalLocation) / metersToYards // 0.9144
+				distance 			= thisDistance * metersToYards
 				plusMinus 			= "="
 			}
 		}
-		//		else { // MILES
-		//			if let lastLocation 	= lastLocation {
-		//				prevDist				= distance ?? 0 // just to debug
-		//				segmentDistance 	= currentLocation.distance(from: prevLocation) / metersToMiles // 1609.344
-		//				self.distance! 	+= segmentDistance
-		//				speedDist 			= self.distance!
-		//				plusMinus 			= "+="
-		//			}
-		//		}
 	}
 
 	/// Stop the CLLocation update
@@ -383,13 +372,13 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 }
 
 extension DistanceTracker { // misc helper methods
-	func buildDebugStr() {
-		if let fl 		= firstLocation, let ll = lastLocation {
-			debugStr 	= plusMinus + " | Last: (\(ll.coordinate.latitude), \(ll.coordinate.longitude))\nFirst: (\(fl.coordinate.latitude), \(fl.coordinate.longitude))"
-		} else {
-			debugStr 	= "FL: nil | LL: nil"
-		}
-	}
+//	func buildDebugStr() {
+//		if let fl 		= firstLocation, let ll = lastLocation {
+//			debugStr 	= plusMinus + " | Last: (\(ll.coordinate.latitude), \(ll.coordinate.longitude))\nFirst: (\(fl.coordinate.latitude), \(fl.coordinate.longitude))"
+//		} else {
+//			debugStr 	= "FL: nil | LL: nil"
+//		}
+//	}
 
 	func stringFromTimeInterval(interval: TimeInterval) -> String {
 		let interval 	= Int(interval)
@@ -415,6 +404,7 @@ extension DistanceTracker { // misc helper methods
 		resetLocationManager()
 		holdCLLocations.removeAll()
 		altitudes.removeAll()
+//		formattedTimeString 			= "00:00:00"
 		currentCoords 					= CLLocationCoordinate2D()
 		holdCLLocations 				= []
 		locationsArray 				= []
@@ -436,6 +426,7 @@ extension DistanceTracker { // misc helper methods
 		prevDist							= 0
 		segmentDistance 				= 0
 		elapsedTime 					= 0
+		formattedTimeString 			= stringFromTimeInterval(interval: elapsedTime)
 		heartRate 						= 0
 		speedDist						= 0
 		lastHapticMile 				= 0

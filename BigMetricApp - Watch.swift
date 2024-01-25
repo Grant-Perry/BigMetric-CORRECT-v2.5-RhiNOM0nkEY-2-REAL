@@ -4,15 +4,15 @@
 //
 //  Created by: Grant Perry on 5/25/23.
 
-//			Trust ONLY this project Modified: Wednesday January 10, 2024 at 5:08:07 PM
+//			Trust ONLY this project Modified/Branch: Monday January 22, 2024 at 1:03:43 PM
 
 //			DEVELOP MODE branch
 
 import SwiftUI
 
 let APP_NAME 		= "BigMetric"
-let APP_VERSION 	= "d2.9 RhiNO-M0nkEY"
-let MOD_DATE 		= "Mod: 1/10/24 - 10:49 AM"
+let APP_VERSION 	= "d3.0 RhiNO-M0nkEY"
+let MOD_DATE 		= "Mod: 1/22/24 1:02PM"
 
 @main
 struct BigMetric_Watch_AppApp: App {
