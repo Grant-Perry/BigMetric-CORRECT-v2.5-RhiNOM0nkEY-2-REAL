@@ -141,13 +141,18 @@ struct WorkoutMap: View {
                }
             }
          }
-         .task {
-            guard let workouts = await readWorkouts(400) else {
-               return
-            }
-            self.workouts = workouts
-            await self.loadBatch(workouts)
-         }
+			.task {
+				do {
+					guard let workouts = try await readWorkouts(limit: 200) else {
+						return
+					}
+					self.workouts = workouts
+					await self.loadBatch(workouts)
+				} catch {
+					// Handle the error, perhaps by logging or displaying a user-friendly message
+					print("Error loading workouts: \(error.localizedDescription)")
+				}
+			}
       }
    }
 }

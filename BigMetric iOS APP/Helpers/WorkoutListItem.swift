@@ -10,28 +10,22 @@ import HealthKit
 import CoreLocation
 import MapKit
 
+// this is the full map view with polyLine overlay view
+
 struct WorkoutListItem: View {
-	let workout: HKWorkout
+	@State var workout: HKWorkout
+	var workoutUtility = WorkoutUtility()
 	let mapView: MKMapView										= MKMapView()
 	@State var healthStore 										= HKHealthStore()
 	@State var locations: [CLLocation]? 					= nil
-	@State private var numRouteCoords: Int 				= 0
 	@State var regionLatLongHeight:CLLocationDistance	= 2000 // feet
-	@State private var workoutDistance: Double? 			= nil
 	@State private var CityState: String?
 	@State private var lastCoordinates: CLLocationCoordinate2D?
 	@State var longitude: CLLocationDegrees?
 	@State var latitude: CLLocationDegrees?
-	let gradient = LinearGradient(
-		colors: [.red, .green, .blue],
-		startPoint: .leading, endPoint: .trailing)
-
-	let stroke = StrokeStyle(
-		lineWidth: 5,
-		lineCap: .round, lineJoin: .round, dash: [10, 10])
-	//	var workoutCoords: WorkoutCoords
 
 	// this is the map view displayed when user selects a workout from the List
+
 
 	var body: some View {
 		NavigationLink {
@@ -54,65 +48,60 @@ struct WorkoutListItem: View {
 					Text("Found \(locations.count) waypoints")
 						.font(.caption)
 					//  MARK: - THE MAP displayed
-					//					MapView(mapView:mapView)
-					//						.ignoresSafeArea()
+					MapView(mapView:mapView)
+						.ignoresSafeArea()
 
-					Map {
-						MapPolyline(coordinates: holdRouteCoords ?? [])
-							.stroke(gradient)
-					}
+					//  THIS SECTION IS about 85%... fall back to MapView for now
+					//					Map {
+					//						MapPolyline(coordinates: holdRouteCoords ?? [])
+					//							.stroke(gradient)
+					//					}
 
 				}
 			}
 			Spacer()
 				.task {
-					guard let routes = await getWorkoutRoute(workout: workout) else {
-						return
-					}
-					guard routes.count > 0 else {
-						// clear locations from last query and get it ready for next
+					guard let routes = await getWorkoutRoute(workout: workout), !routes.isEmpty else {
 						self.locations = []
 						holdRouteCoords = []
 						return
 					}
-
 					if routes.count > 1 {
-						print("found \(routes.count) route samples for workout")
+						let s: LocalizedStringKey = "found ^[\(routes.count) route sample] (inflect: true)"
+						print("\(s)")
 					}
-					// now build a [CLLocation] from the given workout route  into locations
+					// process only the first route
 					self.locations = await getCLocationDataForRoute(routeToExtract: routes[0])
-
-
-					// i added an extra second to submit the async just to be certain locations gets loaded
-					DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+					// Focus locations on the main thread, no need to delay
+					DispatchQueue.main.async {
 						self.focusLocations()
 					}
 				}
 		}
 
 		// MARK: - the list view
-	label: {  // label for the NavigationLink
-		HStack(spacing: 10) {
+	label: {
+			WorkoutMetricsView(workout: workout)
+	}
+
+	}
+
+	func workoutMetricsViewORIG() -> some View {
+		return HStack(spacing: 10) {
 			let workoutActivityType = workout.workoutActivityType
 			let workoutIconEnum = WorkoutIcon(hkType: workoutActivityType)
 
 			Image(systemName: workoutIconEnum.icon).foregroundColor(workoutIconEnum.colors)
 
-			Text("\(self.formatDate())")
+			Text("\(workoutUtility.formatDate(workout: workout))")
 				.theRows()
-			//
-			//			Text("Address")
-			//				.theRows()
-
-			// distance calculated
-			//			Text("\(CityState)")
-			Text("\(String(format: "%.2f", workoutDistance ?? 0.0))")
+			Text("\(String(format: "%.2f", workoutUtility.workoutDistance ?? 0.0))")
 				.font(.caption)
 				.onAppear {
 					Task {
 						do {
-							let distance		= try await getWorkoutDistance(workout)
-							workoutDistance	= distance
+							let distance		= try await workoutUtility.getWorkoutDistance(workout)
+							let workoutDistance	= distance
 						} catch {
 							// Handle any errors here
 							print("Error: \(error)")
@@ -124,16 +113,16 @@ struct WorkoutListItem: View {
 		.onAppear {
 			// Move the data fetching logic here, so it's triggered when the row appears
 			Task {
-				let hasCoords = await calcNumCoords(workout)
-				self.numRouteCoords = hasCoords
+				let hasCoords = await workoutUtility.calcNumCoords(workout)
+				let numRouteCoords = hasCoords
 			}
 		}
 	}
+}
 
-	}
+extension WorkoutListItem {
 
-
-	func focusLocations() {
+		func focusLocations() {
 		if let coordinates 	= processLocations(self.locations) {
 			let delegate 		= MapViewDelegate()
 
@@ -154,6 +143,15 @@ struct WorkoutListItem: View {
 		}
 	}
 
+	
+
+	func formatDateName() -> String {
+		let dateToStringFormatter 			= DateFormatter()
+		dateToStringFormatter.dateFormat = "MMMM d, yyyy"
+
+		return dateToStringFormatter.string(from: workout.startDate)
+	}
+
 	func processLocations(_ locations: [CLLocation]?) -> [CLLocationCoordinate2D]? {
 		guard let validLocations = locations?.filter({ $0.coordinate.latitude != 0 || $0.coordinate.longitude != 0 }), validLocations.count > 0 else {
 			return nil
@@ -162,36 +160,7 @@ struct WorkoutListItem: View {
 		return coordinates
 	}
 
-	func getWorkoutDistance(_ thisWorkout: HKWorkout) async throws -> Double {
-		guard let route = await getWorkoutRoute(workout: thisWorkout)?.first else {
-			return 0
-		}
-		let coords = await getCLocationDataForRoute(routeToExtract: route)
-		longitude = coords.last?.coordinate.longitude
-		latitude = coords.last?.coordinate.latitude
-		return coords.calcDistance
-		//		return await getCLocationDataForRoute(routeToExtract: route).calcDistance
-	}
-
-
-}
-
-extension WorkoutListItem {
-
-	func formatDate() -> String {
-		let dateToStringFormatter = DateFormatter()
-		dateToStringFormatter.timeStyle 	= .short
-		dateToStringFormatter.dateStyle 	= .short
-
-		return dateToStringFormatter.string(from: workout.startDate)
-	}
-
-	func formatDateName() -> String {
-		let dateToStringFormatter 			= DateFormatter()
-		dateToStringFormatter.dateFormat = "MMMM d, yyyy"
-
-		return dateToStringFormatter.string(from: workout.startDate)
-	}
+	
 }
 
 

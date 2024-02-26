@@ -12,42 +12,42 @@ import SwiftUI
 import HealthKit
 import CoreLocation
 
+var workoutUtility = WorkoutUtility()
+
 let store = HKHealthStore()
 
 /// func readWorkouts() - gather workouts from the HealthStore
 /// - Parameter limit: max number of results to query
 /// - Returns: queried workouts
-func readWorkouts(_ limit: Int = HKObjectQueryNoLimit) async -> [HKWorkout]? {
-   let cycling = HKQuery.predicateForWorkouts(with: .cycling)
-   let walking = HKQuery.predicateForWorkouts(with: .walking)
-   let running = HKQuery.predicateForWorkouts(with: .running)
-   // Combine all possible workouts ...HKQuery.predicateForWorkouts(With: xx)
-   ///
-   ///  In the NSCompoundPredicate below...
-   ///  - parameter type .or specifies that the subpredicates should be combined using the logical OR operator.
-   ///  - parameter subpredicates is an array of NSPredicate objects that will be combined using the specified operator.
-   ///
-   let compoundPredicates = NSCompoundPredicate(type: .or,
-                                                subpredicates: [cycling, walking, running])
-   let samples = try! await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[HKSample], Error>) in
-      store.execute(HKSampleQuery(sampleType: .workoutType(),
-                                  predicate: compoundPredicates,
-                                  limit: limit,
-                                  sortDescriptors: [.init(keyPath: \HKSample.startDate, 
-																			 ascending: false)],
-                                  resultsHandler: { query, samples, error in
-         if let hasError = error {
-            continuation.resume(throwing: hasError)
-            return
-         }
-         guard let samples = samples else { return }
-         continuation.resume(returning: samples)
-      }))
-   }
 
-   guard let workouts = samples as? [HKWorkout] else { return nil }
-	print("workouts: \(workouts)")
-   return workouts
+func readWorkouts(limit: Int = HKObjectQueryNoLimit) async throws -> [HKWorkout]? {
+	let store = HKHealthStore()
+	let workoutTypes: [HKWorkoutActivityType] = [.cycling, .walking, .running]
+	let predicates = workoutTypes.map { HKQuery.predicateForWorkouts(with: $0) }
+	let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+
+	do {
+//		let samples = try await withCheckedThrowingContinuation { continuation in
+		let samples: [HKSample] = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[HKSample], Error>) in
+			let query = HKSampleQuery(sampleType: .workoutType(),
+											  predicate: compoundPredicate,
+											  limit: limit,
+											  sortDescriptors: [NSSortDescriptor(keyPath: \HKSample.startDate, ascending: false)]) { _, samples, error in
+				if let error = error {
+					continuation.resume(throwing: error)
+				} else if let samples = samples {
+					continuation.resume(returning: samples)
+				} else {
+					continuation.resume(returning: [])
+				}
+			}
+			store.execute(query)
+		}
+		return samples as? [HKWorkout]
+	} catch {
+		print("Error reading workouts: \(error)")
+		throw error
+	}
 }
 
 /// Gets all samples in HealthKit from the workout passed
@@ -56,8 +56,6 @@ func readWorkouts(_ limit: Int = HKObjectQueryNoLimit) async -> [HKWorkout]? {
 ///  routes in the workout passed to getWorkoutRoute
 ///
 func getWorkoutRoute(workout: HKWorkout) async -> [HKWorkoutRoute]? {
-   // setup the query to get all the
-
    let byWorkout 	= HKQuery.predicateForObjects(from: workout)
    let samples 	= try! await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[HKSample], Error>) in
       store.execute(HKAnchoredObjectQuery(type: HKSeriesType.workoutRoute(),
@@ -95,54 +93,40 @@ func getWorkoutRoute(workout: HKWorkout) async -> [HKWorkoutRoute]? {
 ///- parameter errorOrNil: An optional error object that represents any error that occurred while retrieving the location data. T
 ///his parameter is nil if there were no errors.
 //////
+
 func getCLocationDataForRoute(routeToExtract: HKWorkoutRoute) async -> [CLLocation] {
-   do {
-      let locations = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[CLLocation], Error>) in
-         var allLocations: [CLLocation] = []
-         let query = HKWorkoutRouteQuery(route: routeToExtract) { (query, locationsOrNil, done, errorOrNil) in
-            if let error = errorOrNil {
-               continuation.resume(throwing: error)
-               return
-            }
-            guard let currentLocationBatch = locationsOrNil else {
-               guard let error = errorOrNil else {
-                  fatalError("*** Invalid State: unknown error occurred ***")
-               }
-               fatalError("*** Invalid State: \(error.localizedDescription) ***")
-            }
-            allLocations.append(contentsOf: currentLocationBatch)
-
-            if done {
-               continuation.resume(returning: allLocations)
-            }
-         }
-         store.execute(query)
-      }
-      return locations
-   } catch {
-      print("Error fetching location data: \(error.localizedDescription)")
-      return []
-   }
+	do {
+		let locations: [CLLocation] = try await withCheckedThrowingContinuation { continuation in
+			var allLocations: [CLLocation] = []
+			let query = HKWorkoutRouteQuery(route: routeToExtract) { query, locationsOrNil, done, errorOrNil in
+				if let error = errorOrNil {
+					continuation.resume(throwing: error)
+					return
+				}
+				if let locationsOrNil = locationsOrNil {
+					allLocations.append(contentsOf: locationsOrNil)
+					if done {
+						continuation.resume(returning: allLocations)
+					}
+				} else {
+					continuation.resume(returning: []) // Resume with an empty array if no locations are found
+				}
+			}
+			store.execute(query)
+		}
+		return locations
+	} catch {
+		print("Error fetching location data: \(error.localizedDescription)")
+		return []
+	}
 }
 
-func filterWorkoutsWithCoords(_ workouts: [HKWorkout]) async -> [HKWorkout] {
-   var filteredWorkouts: [HKWorkout] = []
-   for workout in workouts {
-      if await calcNumCoords(workout) > 0 {
-         filteredWorkouts.append(workout)
-      }
-   }
-   return filteredWorkouts
-}
 
-func calcNumCoords(_ work: HKWorkout) async -> Int {
-   guard let route = await getWorkoutRoute(workout: work)?.first else {
-      return 0
-   }
-   let locations = await getCLocationDataForRoute(routeToExtract: route)
-   let filteredLocations = locations.filter { $0.coordinate.latitude != 0 || $0.coordinate.longitude != 0 }
-   return filteredLocations.count
-}
+
+
+
+
+
 
 /*
  queryStepCount returns the current daily step count

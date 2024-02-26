@@ -14,7 +14,7 @@ struct summary: View {
 	@Bindable var distanceTracker: DistanceTracker
 	@Bindable var workoutManager:WorkoutManager
 	@Binding 				var	selectedTab:		Int
-	@State 			 		var	finalSteps: 		Int = 0
+//	@State 			 		var	finalSteps: 		Int = 0
 	@State 			 		var	durationFormatter: DateComponentsFormatter = {
 		let formatter				= DateComponentsFormatter()
 		formatter.allowedUnits 	= [.hour, .minute, .second]

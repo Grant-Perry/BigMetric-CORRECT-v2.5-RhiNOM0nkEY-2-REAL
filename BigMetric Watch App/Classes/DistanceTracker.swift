@@ -185,7 +185,7 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 				// fetch the starting step counter
 				queryStepCount { steps in
 					if let steps = steps {
-						print("I'm setting starStepCnt & holdInitialSteps to: \(steps) \n-----------------")
+						print("I'm setting startStepCnt & holdInitialSteps to: \(steps) \n-----------------")
 						self.startStepCnt			= steps
 						self.holdInitialSteps	= steps
 						print("---------\nNumber of PREVIOUS steps: \(self.startStepCnt) \n-----------------")
@@ -245,20 +245,20 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 	func startUpdates() {
 		if self.LMDelegate.authorizationStatus !=  .authorizedWhenInUse {
 			getCLAuth(LMDelegate)
-			isNotAuthorized 		= true // what is this?
+			isNotAuthorized = true // what is this?
 		}
-		self.weIsRecording 		= true
+		self.weIsRecording = true
 		if startRouteBuilder {
 			getHKAuth()
-			startRouteBuilder 	= false
+			startRouteBuilder = false
 		}
 
 		LMDelegate.startUpdatingLocation()
 		startPedometer(startStop: true) // start the pedometer
 		timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-			guard let self			= self else { return }
+			guard let self = self else { return }
 			if self.weIsRecording {
-				self.elapsedTime 	+= 1 // add a second to the count
+				self.elapsedTime += 1 // add a second to the count
 				self.formattedTimeString = self.stringFromTimeInterval(interval: self.elapsedTime)
 			}
 		}
@@ -347,14 +347,19 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 				// let's start the pedometer
 				let calendar = Calendar.current
 				let midnight = calendar.startOfDay(for: Date())
+//				print("workoutStepCount = \(workoutStepCount) | holdInitialSteps: \(holdInitialSteps)")
 				pedometer.startUpdates(from: midnight) { [self] pedometerData, error in
 					if let stepData = pedometerData {
 						// Update step count
 						// subtract the initial steps
 						// This holds the cumulative steps because the pedometer lifecycle
 						// may be shorter than the overall workout
-						workoutStepCount += holdInitialSteps > 0 ? Int(truncating: stepData.numberOfSteps) - holdInitialSteps : 0
+
+						let pedStepCount = Int(truncating: stepData.numberOfSteps)
+//						print("Number of steps recorded: \(pedStepCount) less holdInitialSteps: \(holdInitialSteps) should = \(pedStepCount - holdInitialSteps)")
+						workoutStepCount = pedStepCount - holdInitialSteps
 					}
+//					print("workoutStepCount now modified by holdInitialSteps: \(holdInitialSteps) NOW = \(workoutStepCount) ")
 				}
 			} else {
 				// let's stop the pedometer

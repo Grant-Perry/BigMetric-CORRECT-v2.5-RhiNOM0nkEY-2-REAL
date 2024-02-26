@@ -12,31 +12,8 @@ import CoreLocation
 
 @Observable
 class WeatherKitManager: NSObject {
-	internal init(distanceTracker: DistanceTracker, dailyForecast: Forecast<DayWeather>? = nil, hourlyForecast: Forecast<HourWeather>? = nil, date: Date = .now, latitude: Double = 0, longitude: Double = 0, windSpeedVar: Double = 0, precipForecast: Double = 0, precipForecast2: Double = 0, precipForecastAmount: Double = 0, isErrorAlert: Bool = false, symbolVar: String = "xmark", tempVar: String = "", tempHour: String = "", windDirectionVar: String = "", highTempVar: String = "", lowTempVar: String = "", locationName: String = "", weekForecast: [WeatherKitManager.Forecasts] = [], symbolHourly: String = "") {
-		self.distanceTracker = distanceTracker
-		self.dailyForecast = dailyForecast
-		self.hourlyForecast = hourlyForecast
-		self.date = date
-		self.latitude = latitude
-		self.longitude = longitude
-		self.windSpeedVar = windSpeedVar
-		self.precipForecast = precipForecast
-		self.precipForecast2 = precipForecast2
-		self.precipForecastAmount = precipForecastAmount
-		self.isErrorAlert = isErrorAlert
-		self.symbolVar = symbolVar
-		self.tempVar = tempVar
-		self.tempHour = tempHour
-		self.windDirectionVar = windDirectionVar
-		self.highTempVar = highTempVar
-		self.lowTempVar = lowTempVar
-		self.locationName = locationName
-		self.weekForecast = weekForecast
-		self.symbolHourly = symbolHourly
-	}
-	
+
 	let distanceTracker: DistanceTracker // = DistanceTracker()
-//	var geoCodeHelper: GeoCodeHelper // = GeoCodeHelper()
 	var dailyForecast : Forecast<DayWeather>?
 	var hourlyForecast : Forecast<HourWeather>?
 	let weatherService = WeatherService()
@@ -62,6 +39,65 @@ class WeatherKitManager: NSObject {
 		CLLocation(latitude: latitude, longitude: longitude)
 	}
 
+	internal init(distanceTracker: DistanceTracker, dailyForecast: Forecast<DayWeather>? = nil, hourlyForecast: Forecast<HourWeather>? = nil, date: Date = .now, latitude: Double = 0, longitude: Double = 0, windSpeedVar: Double = 0, precipForecast: Double = 0, precipForecast2: Double = 0, precipForecastAmount: Double = 0, isErrorAlert: Bool = false, symbolVar: String = "xmark", tempVar: String = "", tempHour: String = "", windDirectionVar: String = "", highTempVar: String = "", lowTempVar: String = "", locationName: String = "", weekForecast: [WeatherKitManager.Forecasts] = [], symbolHourly: String = "") {
+		self.distanceTracker = distanceTracker
+		self.dailyForecast = dailyForecast
+		self.hourlyForecast = hourlyForecast
+		self.date = date
+		self.latitude = latitude
+		self.longitude = longitude
+		self.windSpeedVar = windSpeedVar
+		self.precipForecast = precipForecast
+		self.precipForecast2 = precipForecast2
+		self.precipForecastAmount = precipForecastAmount
+		self.isErrorAlert = isErrorAlert
+		self.symbolVar = symbolVar
+		self.tempVar = tempVar
+		self.tempHour = tempHour
+		self.windDirectionVar = windDirectionVar
+		self.highTempVar = highTempVar
+		self.lowTempVar = lowTempVar
+		self.locationName = locationName
+		self.weekForecast = weekForecast
+		self.symbolHourly = symbolHourly
+	}
+
+	// Function to fetch weather forecast for a specific location and date range
+//	func fetchWeatherForecastForDateRange() {
+//		let weatherService = WeatherService()
+//
+//		// Specify the location for which you want the weather forecast
+//		let location = CLLocation(latitude: 37.7749, longitude: -122.4194) // Example: San Francisco, CA
+//
+//		// Define the start and end dates for the forecast range
+//		let calendar = Calendar.current
+//		guard let startDate = calendar.date(from: DateComponents(year: 2022, month: 9, day: 9)),
+//				let endDate = calendar.date(from: DateComponents(year: 2022, month: 9, day: 10)) else {
+//			print("Invalid date range")
+	
+//			return
+//		}
+//
+//		Task {
+//			do {
+//				// Fetch the weather forecast for the specified location and date range
+//				let forecast = try await weatherService.weather(for: location, including: .daily(startDate: startDate, endDate: endDate))
+//				print("Low: \(forecast.first?.lowTemperature ?? 0) - High: \(forecast.first?.highTemperature ?? 0)\n-----------\n")
+//				// Assuming forecast is of type Forecast<DayWeather>, access its properties directly
+//				// Iterate over each DayWeather in the forecast
+//				for dayWeather in forecast.forecast {
+//					// Print the summary of each daily forecast within the range
+//					print("dayWeather = \(dayWeather)\nforecast = \(forecast)")
+////					print("Date: \(dayWeather.date), Summary: \(dayWeather.longPhrase)")
+//				}
+//			} catch {
+//				// Handle any errors
+//				print("Error fetching weather forecast for the specified date range: \(error)")
+//			}
+//		}
+//	}
+
+
 
 
 	// main method to retrieve the currentForecast and hourlyForecast
@@ -69,6 +105,7 @@ class WeatherKitManager: NSObject {
 		Task {
 			do {
 				let weather = try await fetchWeather(for: coordinate)
+//				let forecast = try await weatherService.weather(for: convertToCLLocation(coordinate), on: date)
 				let current = weather.currentWeather
 				let hourly  = weather.hourlyForecast.first
 				guard let dailyForecast = await dailyForecast(for: coordinate) else {
@@ -123,7 +160,7 @@ class WeatherKitManager: NSObject {
 	@discardableResult
 	private func fetchWeather(for coordinate: CLLocationCoordinate2D) async throws -> Weather {
 		let weather = try await Task.detached(priority: .userInitiated) { [self] in
-			return try await self.sharedService.weather(for: self.convertCLL(coordinate))
+			return try await self.sharedService.weather(for: self.convertToCLLocation(coordinate))
 		}.value
 		return weather
 	}
@@ -132,6 +169,7 @@ class WeatherKitManager: NSObject {
 	func dailyForecast(for coordinate: CLLocationCoordinate2D) async -> Forecast<DayWeather>? {
 		let currentCoord     	= CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
 		let dayWeather       	= await Task.detached(priority: .userInitiated) {
+			/// let (current, minute, hourly) = try await service.weather(for: newYork, including: .current, .minute, .hourly)
 			let dayForecast	= try? await self.sharedService.weather(
 				for: currentCoord,
 				including: .daily)
@@ -154,7 +192,7 @@ class WeatherKitManager: NSObject {
 		return hourWeather
 	}
 
-	func convertCLL(_ coordinate: CLLocationCoordinate2D) -> CLLocation {
+	func convertToCLLocation(_ coordinate: CLLocationCoordinate2D) -> CLLocation {
 		return CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
 	}
 
@@ -165,3 +203,5 @@ class WeatherKitManager: NSObject {
 		let maxTemp: String
 	}
 }
+
+

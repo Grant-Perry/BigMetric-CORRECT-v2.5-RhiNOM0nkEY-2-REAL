@@ -8,7 +8,8 @@
 import SwiftUI
 import HealthKit
 ////
-///   This view shows all the workouts in a List view
+///   This is the ORIGINAL view
+///   shows all the workouts in a List view
 ///   this gets fired by default from PolyMapView
 ///
 ///   The first thing that happens is the .task async fires readWorkouts and populates workouts with its results
@@ -16,6 +17,7 @@ import HealthKit
 struct WorkoutList: View {
    @State var workouts: [HKWorkout] = []
    @State private var isLoading: Bool = true
+	var workoutUtility = WorkoutUtility()
 
    var body: some View {
       ZStack {
@@ -28,12 +30,13 @@ struct WorkoutList: View {
                                    displayMode: .large)
                .foregroundColor(.white)
             }
-            .task {
-               guard let workouts = await readWorkouts(150) else { return }
-               let filteredWorkouts = await filterWorkoutsWithCoords(workouts)
-               self.workouts = filteredWorkouts
-               self.isLoading = false
-            }
+				.task {
+					guard let workouts = try? await readWorkouts(limit: 150) else { return }
+					let workoutCoords = await workoutUtility.filterWorkoutsWithCoords(workouts)
+					self.workouts = workoutCoords
+					self.isLoading = false
+				}
+
          }
 
          if isLoading {
@@ -45,49 +48,7 @@ struct WorkoutList: View {
    }
 }
 
-struct LoadingView: View {
-   var progress = Color(#colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1))
-   var bg = Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
-   var bgTop = Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
 
-   var body: some View {
-      ZStack {
-         VStack {
-            Rectangle()
-               .fill(bgTop)
-               .frame(height: 45)
-            Spacer()
-         }
-         VStack {
-            HStack {
-               Spacer()
-               Image(systemName: "map.circle")
-                  .resizable()
-                  .frame(width: 36, height: 36)
-                  .foregroundColor(.white)
-                  .padding(EdgeInsets(top: 12, leading: 16, bottom: 16, trailing: 16))
-            }
-            Spacer()
-         }
-         VStack {
-            Spacer(minLength: 75)
-            VStack {
-               Text("Loading Workouts...")
-                  .foregroundColor(progress)
-                  .font(.title2)
-                  .padding(.bottom, 10)
-               ProgressView()
-                  .scaleEffect(1.5, anchor: .center)
-                  .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-            }
-            Spacer()
-         }
-      }
-      .frame(width: 300, height: 300)
-      .background(bg.opacity(0.8))
-      .cornerRadius(20)
-   }
-}
 
 
 
