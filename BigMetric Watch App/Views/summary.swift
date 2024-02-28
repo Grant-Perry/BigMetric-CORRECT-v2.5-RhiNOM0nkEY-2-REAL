@@ -55,18 +55,12 @@ struct summary: View {
 						Group {
 							SummaryMetricView(
 								title: "Total Steps:",
-								value: gpNumFormat.formatNumber(Double(distanceTracker.workoutStepCount), 0))
+								value: distanceTracker.workoutStepCount > 0 ? gpNumFormat.formatNumber(Double(distanceTracker.workoutStepCount), 0) : "0")
 							.accentColor(.gpGreen)
+							.lineLimit(1)
+							.minimumScaleFactor(0.5)
+							.scaledToFit()
 						}
-//						.onAppear {
-//							distanceTracker.queryStepCount { steps in
-//								if let steps = steps {
-//									self.finalSteps = steps > 0 ? steps - distanceTracker.holdInitialSteps : 0 // distanceTracker.startStepCnt
-//									print("\n-------------------\nstartStepCnt: \(distanceTracker.startStepCnt) - steps: \(steps) = finalSteps: \(self.finalSteps)\n-------------------\n")
-////									distanceTracker.startStepCnt = 0 // reset the starting step counter in distanceTracker
-//								} else { print("Error retrieving step count for summary view") }
-//							}
-//						}
 
 						SummaryMetricView(
 							title: "Total Energy:",

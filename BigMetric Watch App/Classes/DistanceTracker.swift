@@ -355,7 +355,7 @@ class DistanceTracker: 	NSObject, CLLocationManagerDelegate {
 						// This holds the cumulative steps because the pedometer lifecycle
 						// may be shorter than the overall workout
 
-						let pedStepCount = Int(truncating: stepData.numberOfSteps)
+						let pedStepCount = Int(truncating: stepData.numberOfSteps) // total number of steps from: midnight
 //						print("Number of steps recorded: \(pedStepCount) less holdInitialSteps: \(holdInitialSteps) should = \(pedStepCount - holdInitialSteps)")
 						workoutStepCount = pedStepCount - holdInitialSteps
 					}

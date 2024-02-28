@@ -4,14 +4,14 @@
 //
 //  Created by: Grant Perry on 5/25/23.
 
-//			Trust ONLY this project Modified/Branch: Monday January 22, 2024 at 1:03:43 PM
+//			Modified: Wednesday February 28, 2024 at 9:01:26 AM
 
 
 import SwiftUI
 
 let APP_NAME 		= "BigMetric"
-let APP_VERSION 	= "3.2 RhiNO-M0nkEY"
-let MOD_DATE 		= "Mod: 2/25/24 10:49AM"
+let APP_VERSION 	= "3.2a RhiNO-M0nkEY-FarT"
+let MOD_DATE 		= "Modified: 2/27/24 | 7:17PM0"
 
 @main
 struct BigMetric_Watch_AppApp: App {
@@ -22,7 +22,6 @@ struct BigMetric_Watch_AppApp: App {
 	@State var geoCodeHelper: GeoCodeHelper = GeoCodeHelper(distanceTracker: DistanceTracker())
    @State private var distanceTrackerInitialized = false
    @State private var selectedTab = 2
-	
 
    var body: some Scene {
       WindowGroup {
@@ -63,11 +62,6 @@ struct BigMetric_Watch_AppApp: App {
 				showHeartBeat(distanceTracker: distanceTracker)
 					.tabItem { Image(systemName: "circle.fill") }
 					.tag(7)
-
-//				varView()
-//					.tabItem { Image(systemName: "circle.fill") }
-//					.tag(7)
-
          }
          .onAppear {
             self.selectedTab = 2
